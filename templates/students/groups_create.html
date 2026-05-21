@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-3 border-bottom border-secondary border-opacity-50 sticky-top bg-black d-flex align-items-center" style="z-index: 1020; opacity: 0.95;">
+    <a href="{% url 'student_groups' %}" class="text-white text-decoration-none me-4 fs-5"><i class="bi bi-arrow-left"></i></a>
+    <h4 class="text-white mb-0 fw-bold">Create Group</h4>
+</div>
+
+<div class="p-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="form-label text-secondary small">Group Picture</label>
+            <input type="file" name="group_pic" class="form-control bg-dark" accept="image/*">
+        </div>
+        
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" id="nameInput" name="name" placeholder="Group Name" required>
+            <label for="nameInput" class="text-secondary">Group Name</label>
+        </div>
+        
+        <div class="mb-4">
+            <label class="form-label text-secondary small">Select Members</label>
+            <div class="bg-dark p-3 rounded-3 border border-secondary border-opacity-50 overflow-auto" style="max-height: 200px;">
+                {% for st in all_students %}
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" name="members" value="{{ st.id }}" id="student-{{ st.id }}">
+                        <label class="form-check-label text-white" for="student-{{ st.id }}">
+                            {{ st.name }} ({{ st.roll_number }})
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="text-end">
+            <button type="submit" class="btn btn-light rounded-pill fw-bold text-black px-4">Create</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-3 border-bottom border-secondary border-opacity-50 sticky-top bg-black d-flex align-items-center" style="z-index: 1020; opacity: 0.95;">
+    <h4 class="text-white mb-0 fw-bold">Edit Admin Profile</h4>
+</div>
+
+<div class="p-4">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label class="form-label text-secondary small">Profile Picture</label>
+            <input type="file" name="profile_pic" class="form-control bg-dark" accept="image/*">
+            {% if admin.profile_pic %}
+                <div class="mt-2 text-secondary small">Current: {{ admin.profile_pic.name }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-floating mb-4">
+            <input type="text" class="form-control" id="usernameInput" name="username" value="{{ admin.username }}" placeholder="Username" required>
+            <label for="usernameInput" class="text-secondary">Username</label>
+        </div>
+        
+        <div class="form-floating mb-4">
+            <input type="email" class="form-control" id="emailInput" name="email" value="{{ admin.email }}" placeholder="Email" required>
+            <label for="emailInput" class="text-secondary">Email</label>
+        </div>
+
+        <div class="mb-4">
+            <a href="{% url 'admin_change_password' %}" class="btn btn-outline-secondary rounded-pill w-100">Change Password</a>
+        </div>
+        
+        <div class="text-end">
+            <button type="submit" class="btn btn-light rounded-pill fw-bold text-black px-4">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

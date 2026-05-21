@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-3 border-bottom border-secondary border-opacity-50 sticky-top bg-black d-flex justify-content-between align-items-center" style="z-index: 1020; opacity: 0.95;">
+    <h4 class="text-white mb-0 fw-bold">Groups</h4>
+    <a href="{% url 'student_group_create' %}" class="btn btn-outline-light rounded-pill btn-sm"><i class="bi bi-plus-lg"></i> New Group</a>
+</div>
+
+<div class="list-group list-group-flush bg-transparent">
+    {% for group in groups %}
+        <a href="{% url 'student_group_detail' group.id %}" class="list-group-item list-group-item-action bg-transparent border-secondary border-opacity-50 p-3 post-card">
+            <div class="d-flex align-items-center">
+                {% if group.group_pic %}
+                    <img src="{{ group.group_pic.url }}" class="avatar me-3 rounded-3">
+                {% else %}
+                    <div class="avatar bg-secondary d-flex align-items-center justify-content-center text-white me-3 rounded-3">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                {% endif %}
+                <div>
+                    <h6 class="text-white mb-1 fw-bold">{{ group.name }}</h6>
+                    <small class="text-secondary">{{ group.members.count }} members</small>
+                </div>
+            </div>
+        </a>
+    {% empty %}
+        <div class="p-5 text-center text-secondary">
+            <h5>No groups yet</h5>
+            <p>Create a group to start chatting with multiple friends.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

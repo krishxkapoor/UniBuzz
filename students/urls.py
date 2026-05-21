@@ -1,0 +1,32 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.login_view, name='student_login'),
+    path('logout/', views.logout_view, name='student_logout'),
+    path('feed/', views.feed_view, name='student_feed'),
+    path('explore/', views.explore_view, name='student_explore'),
+    path('explore/follow/', views.toggle_follow, name='student_toggle_follow'),
+    path('post/create/', views.post_create_view, name='student_post_create'),
+    path('post/<int:post_id>/', views.post_detail_view, name='student_post_detail'),
+    path('post/<int:post_id>/edit/', views.post_edit_view, name='student_post_edit'),
+    path('post/<int:post_id>/delete/', views.post_delete_view, name='student_post_delete'),
+    path('post/<int:post_id>/like/', views.like_view, name='student_like'),
+    path('post/<int:post_id>/report/', views.report_view, name='student_report'),
+    path('post/<int:post_id>/save/', views.save_post_view, name='student_save_post'),
+    path('post/<int:post_id>/comment/', views.comment_view, name='student_comment'),
+    path('comment/<int:comment_id>/delete/', views.comment_delete_view, name='student_comment_delete'),
+    path('saved/', views.saved_posts_view, name='student_saved_posts'),
+    path('profile/<int:user_id>/', views.profile_view, name='student_profile'),
+    path('profile/edit/', views.edit_profile_view, name='student_edit_profile'),
+    path('change-password/', views.change_password_view, name='student_change_password'),
+    path('follow/<int:user_id>/', views.follow_view, name='student_follow'),
+    path('unfollow/<int:user_id>/', views.unfollow_view, name='student_unfollow'),
+    path('chat/', views.chat_view, name='student_chat'),
+    path('chat/<int:user_id>/', views.chat_detail_view, name='student_chat_detail'),
+    path('groups/', views.groups_view, name='student_groups'),
+    path('groups/create/', views.group_create_view, name='student_group_create'),
+    path('groups/<int:group_id>/', views.group_detail_view, name='student_group_detail'),
+    path('groups/<int:group_id>/send/', views.group_send_view, name='student_group_send'),
+    path('notifications/', views.notifications_view, name='student_notifications'),
+]

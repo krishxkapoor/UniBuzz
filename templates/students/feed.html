@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40">
+    <h2 class="font-serif text-xl font-bold text-primary-container">Home Feed</h2>
+</div>
+
+<!-- Create Post Box -->
+<section class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm mb-8 mt-4">
+    <form action="{% url 'student_post_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="flex gap-4">
+            <div class="w-12 h-12 rounded-full bg-slate-100 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <span class="material-symbols-outlined text-slate-400">person</span>
+            </div>
+            <div class="flex-1">
+                <textarea name="content" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container resize-none h-28 font-sans" placeholder="Share a research snippet or campus update..." required></textarea>
+                
+                <!-- Image Preview Container -->
+                <div id="image-preview-container" class="hidden mt-3 relative inline-block">
+                    <img id="image-preview" src="#" alt="Preview" class="max-h-32 rounded-xl border border-slate-200 object-contain">
+                    <button type="button" id="remove-image-btn" class="absolute -top-2 -right-2 bg-slate-800 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-md hover:bg-slate-900 transition-colors">
+                        <span class="material-symbols-outlined text-sm">close</span>
+                    </button>
+                </div>
+                
+                <div class="flex justify-between items-center mt-4">
+                    <div class="flex gap-2">
+                        <label for="image-upload" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 cursor-pointer transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">image</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Media</span>
+                        </label>
+                        <input type="file" id="image-upload" name="image" class="hidden" accept="image/*">
+                        
+                        <button type="button" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">attachment</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Paper</span>
+                        </button>
+                        <button type="button" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">event</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Event</span>
+                        </button>
+                    </div>
+                    <button type="submit" class="px-8 py-2.5 bg-primary-container text-white font-bold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20 text-sm">Post</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- Posts Feed -->
+<div class="space-y-6">
+    {% for post in posts %}
+        {% include 'includes/post_card.html' with post=post %}
+    {% empty %}
+        <div class="py-20 text-center bg-white border border-slate-200 rounded-xl">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-slate-300 text-3xl">post_add</span>
+            </div>
+            <h5 class="font-serif text-lg text-primary-container font-bold mb-1">No posts to show</h5>
+            <p class="text-sm text-slate-500">Follow more students or check back later!</p>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('image-upload');
+    const previewContainer = document.getElementById('image-preview-container');
+    const previewImage = document.getElementById('image-preview');
+    const removeBtn = document.getElementById('remove-image-btn');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            }
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.classList.add('hidden');
+            previewImage.src = '#';
+        }
+    });
+
+    removeBtn.addEventListener('click', function() {
+        fileInput.value = ''; // Clear the input
+        previewContainer.classList.add('hidden');
+        previewImage.src = '#';
+    });
+});
+</script>
+{% endblock %}
+

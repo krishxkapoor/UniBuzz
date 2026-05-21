@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBuzz | Faculty Login</title>
+    <meta name="description" content="Faculty portal login for UniBuzz academic community platform.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#002147",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                    },
+                    fontFamily: {
+                        "serif": ["Newsreader", "serif"],
+                        "sans": ["Work Sans", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen font-sans bg-background antialiased flex items-center justify-center p-4">
+
+    <!-- Decorative Background -->
+    <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-64 bg-amber-500"></div>
+        <div class="absolute top-48 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-white/10 blur-3xl">
+        </div>
+    </div>
+
+    <div class="w-full max-w-md">
+
+        <!-- Brand Header -->
+        <div class="text-center mb-8">
+            <a href="{% url 'landing' %}" class="inline-flex items-center gap-2 mb-6">
+                <div class="w-8 h-8 rounded-lg bg-white/20 border border-white/30 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-sm"
+                        style="font-variation-settings:'FILL' 1">school</span>
+                </div>
+                <span class="font-serif font-bold text-white text-xl">UniBuzz</span>
+            </a>
+            <h1 class="font-serif text-3xl font-bold text-white mb-1">Faculty Portal</h1>
+            <p class="text-white/70 text-sm">Sign in with your university email</p>
+        </div>
+
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Card Top Accent -->
+            <div class="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400"></div>
+
+            <div class="p-8">
+                <!-- Role Badge -->
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-amber-600"
+                            style="font-variation-settings:'FILL' 1; font-size:18px">person_book</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Role</p>
+                        <p class="text-sm font-bold text-primary-container">Faculty Member</p>
+                    </div>
+                </div>
+
+                <!-- Error Messages -->
+                {% if messages %}
+                {% for message in messages %}
+                <div
+                    class="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 mb-5 text-sm">
+                    <span class="material-symbols-outlined text-sm flex-shrink-0">error</span>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <!-- Login Form -->
+                <form method="post" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Email
+                            Address</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                                style="font-size:18px">mail</span>
+                            <input type="email" name="email" required placeholder="faculty@university.edu" autofocus
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400 transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Password</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                                style="font-size:18px">lock</span>
+                            <input type="password" name="password" required placeholder="Your password"
+                                id="password-input"
+                                class="w-full pl-10 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/40 focus:border-amber-400 transition">
+                            <button type="button" onclick="togglePwd()"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-amber-500 transition">
+                                <span class="material-symbols-outlined" id="pwd-icon"
+                                    style="font-size:18px">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="w-full py-3 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20 text-sm mt-2">
+                        Sign In to Faculty Portal
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-3 my-6">
+                    <div class="flex-1 h-px bg-slate-100"></div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Or</span>
+                    <div class="flex-1 h-px bg-slate-100"></div>
+                </div>
+
+                <a href="{% url 'landing' %}"
+                    class="flex items-center justify-center gap-2 w-full py-2.5 border border-slate-200 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-50 transition">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+                    Back to role selection
+                </a>
+            </div>
+        </div>
+
+        <p class="text-center text-xs text-white/50 mt-6">UniBuzz Academic Platform &mdash; Faculty Access</p>
+    </div>
+
+    <script>
+        function togglePwd() {
+            const input = document.getElementById('password-input');
+            const icon = document.getElementById('pwd-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+    </script>
+</body>
+
+</html>

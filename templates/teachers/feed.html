@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40">
+    <h2 class="font-serif text-xl font-bold text-primary-container">Faculty Feed</h2>
+</div>
+
+<!-- Create Post Box -->
+<section class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm mb-8 mt-4">
+    <form action="{% url 'teacher_post_create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="flex gap-4">
+            <div class="w-12 h-12 rounded-full bg-slate-100 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <span class="material-symbols-outlined text-slate-400">person</span>
+            </div>
+            <div class="flex-1">
+                <textarea name="content" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container resize-none h-28 font-sans" placeholder="Share an update with students or colleagues..." required></textarea>
+                
+                <div class="flex justify-between items-center mt-4">
+                    <div class="flex gap-2">
+                        <label for="image-upload" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 cursor-pointer transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">image</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Media</span>
+                        </label>
+                        <input type="file" id="image-upload" name="image" class="hidden" accept="image/*">
+                        
+                        <button type="button" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">attachment</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Resource</span>
+                        </button>
+                        <button type="button" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg flex items-center gap-2 transition-colors group">
+                            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">event</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Notice</span>
+                        </button>
+                    </div>
+                    <button type="submit" class="px-8 py-2.5 bg-primary-container text-white font-bold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20 text-sm">Post</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<!-- Posts Feed -->
+<div class="space-y-6">
+    {% for post in posts %}
+        {% include 'includes/post_card.html' with post=post %}
+    {% empty %}
+        <div class="py-20 text-center bg-white border border-slate-200 rounded-xl">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-slate-300 text-3xl">post_add</span>
+            </div>
+            <h5 class="font-serif text-lg text-primary-container font-bold mb-1">No posts to show</h5>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

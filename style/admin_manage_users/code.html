@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manage Users | UniConnect Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "surface-container-high": "#dde9ff",
+                "primary-fixed": "#d6e3ff",
+                "surface-container": "#e6eeff",
+                "outline": "#74777f",
+                "surface-container-low": "#eff4ff",
+                "on-tertiary-fixed-variant": "#712183",
+                "secondary-fixed-dim": "#e9c176",
+                "inverse-surface": "#233144",
+                "on-secondary-fixed-variant": "#5d4201",
+                "error": "#ba1a1a",
+                "on-secondary-fixed": "#261900",
+                "on-error": "#ffffff",
+                "surface-container-highest": "#d5e3fd",
+                "primary": "#000a1e",
+                "secondary": "#775a19",
+                "background": "#f8f9ff",
+                "on-background": "#0d1c2f",
+                "tertiary-container": "#3e004c",
+                "tertiary": "#190021",
+                "primary-container": "#002147",
+                "surface": "#f8f9ff",
+                "on-primary-container": "#708ab5",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed": "#001b3d",
+                "surface-dim": "#ccdbf4",
+                "on-tertiary": "#ffffff",
+                "inverse-primary": "#aec7f6",
+                "secondary-fixed": "#ffdea5",
+                "on-tertiary-fixed": "#350041",
+                "on-error-container": "#93000a",
+                "on-primary": "#ffffff",
+                "error-container": "#ffdad6",
+                "inverse-on-surface": "#ebf1ff",
+                "on-surface": "#0d1c2f",
+                "primary-fixed-dim": "#aec7f6",
+                "secondary-container": "#fed488",
+                "surface-variant": "#d5e3fd",
+                "on-surface-variant": "#44474e",
+                "on-tertiary-container": "#bc68cb",
+                "surface-tint": "#465f88",
+                "surface-container-lowest": "#ffffff",
+                "outline-variant": "#c4c6cf",
+                "tertiary-fixed": "#fed6ff",
+                "on-secondary-container": "#785a1a",
+                "surface-bright": "#f8f9ff",
+                "on-primary-fixed-variant": "#2d476f",
+                "tertiary-fixed-dim": "#f6adff"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+              },
+              "spacing": {
+                "unit": "4px",
+                "gutter": "24px",
+                "md": "16px",
+                "2xl": "48px",
+                "lg": "24px",
+                "container-max": "1280px",
+                "margin": "32px",
+                "xl": "32px",
+                "3xl": "64px",
+                "sm": "8px",
+                "xs": "4px"
+              },
+              "fontFamily": {
+                "label-caps": ["Work Sans"],
+                "h2": ["Newsreader"],
+                "body-sm": ["Work Sans"],
+                "body-md": ["Work Sans"],
+                "body-lg": ["Work Sans"],
+                "h3": ["Newsreader"],
+                "h1": ["Newsreader"],
+                "button": ["Work Sans"]
+              },
+              "fontSize": {
+                "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .data-table-row:hover {
+            box-shadow: 0px 4px 12px rgba(0, 33, 71, 0.08);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 docked full-width top-0 z-50 fixed w-full">
+<div class="flex justify-between items-center w-full px-8 py-3 max-w-7xl mx-auto font-['Newsreader'] antialiased">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100">UniConnect</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Feed</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Directory</a>
+<a class="text-[#002147] border-b-2 border-amber-500 pb-1 font-semibold transition-colors" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-primary-container w-64" placeholder="Search resources..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-slate-600 hover:bg-slate-50 p-2 rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-slate-600 hover:bg-slate-50 p-2 rounded-full transition-colors">account_circle</button>
+</div>
+</div>
+</header>
+<div class="flex pt-16 flex-1">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-screen w-64 fixed left-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 font-['Work_Sans'] text-sm tracking-tight">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<p class="font-bold text-[#002147] text-lg leading-tight">University Portal</p>
+<p class="text-xs text-slate-500 uppercase tracking-tighter">Academic Excellence</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home Feed</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Campus Groups</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">science</span>
+<span>Research Hub</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Alumni Network</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-amber-500 bg-slate-50 dark:bg-slate-800 text-[#002147] font-bold px-6 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<span>Admin Management</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full py-3 px-4 bg-primary-container text-white rounded font-button text-button hover:bg-primary transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Create Post
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-0 lg:ml-64 p-8 max-w-7xl mx-auto w-full">
+<div class="flex flex-col gap-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<nav class="flex items-center gap-2 text-label-caps text-slate-500 mb-2">
+<span>Admin</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary-container">Manage Users</span>
+</nav>
+<h1 class="font-h1 text-h1 text-primary-container">Manage Users</h1>
+</div>
+<button class="flex items-center gap-2 px-6 py-3 bg-secondary-container text-primary-container font-button text-button rounded hover:brightness-95 transition-all shadow-sm">
+<span class="material-symbols-outlined">person_add</span>
+                        Add User
+                    </button>
+</div>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-white p-6 border border-slate-200 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-slate-500 uppercase">Total Users</p>
+<span class="material-symbols-outlined text-primary-container">groups</span>
+</div>
+<p class="font-h2 text-h2 mt-4">2,543</p>
+<p class="text-xs text-green-600 flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                            +12% from last semester
+                        </p>
+</div>
+<div class="bg-white p-6 border border-slate-200 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-slate-500 uppercase">Active Faculty</p>
+<span class="material-symbols-outlined text-primary-container">workspace_premium</span>
+</div>
+<p class="font-h2 text-h2 mt-4">312</p>
+<p class="text-xs text-slate-400 mt-2">98% Retention rate</p>
+</div>
+<div class="bg-white p-6 border border-slate-200 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-slate-500 uppercase">Undergraduate</p>
+<span class="material-symbols-outlined text-primary-container">school</span>
+</div>
+<p class="font-h2 text-h2 mt-4">1,890</p>
+<p class="text-xs text-slate-400 mt-2">42 Campus clubs active</p>
+</div>
+<div class="bg-white p-6 border border-slate-200 rounded-lg flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<p class="font-label-caps text-slate-500 uppercase">Pending Review</p>
+<span class="material-symbols-outlined text-secondary">pending_actions</span>
+</div>
+<p class="font-h2 text-h2 mt-4 text-secondary">14</p>
+<p class="text-xs text-amber-600 mt-2">Requires immediate attention</p>
+</div>
+</div>
+<!-- Table Controls -->
+<div class="bg-white border border-slate-200 rounded-lg p-4 flex flex-wrap gap-4 items-center justify-between shadow-sm">
+<div class="flex flex-1 min-w-[300px] items-center gap-3">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded focus:ring-1 focus:ring-primary-container focus:border-primary-container font-body-sm" placeholder="Search by name, email or ID..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 border border-slate-200 rounded text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="font-button text-sm">Filters</span>
+</button>
+</div>
+<div class="flex items-center gap-4">
+<select class="border-slate-200 rounded text-sm font-body-sm focus:ring-primary-container">
+<option>Role: All</option>
+<option>Faculty</option>
+<option>Student</option>
+<option>Alumni</option>
+</select>
+<select class="border-slate-200 rounded text-sm font-body-sm focus:ring-primary-container">
+<option>Dept: All Departments</option>
+<option>Computer Science</option>
+<option>Visual Arts</option>
+<option>Physics</option>
+</select>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 border-b border-slate-200 sticky top-0 z-20">
+<th class="p-3 text-label-caps text-slate-500 uppercase tracking-widest font-bold">
+<div class="flex items-center gap-1">
+                                            Name <span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</div>
+</th>
+<th class="p-3 text-label-caps text-slate-500 uppercase tracking-widest font-bold">Role</th>
+<th class="p-3 text-label-caps text-slate-500 uppercase tracking-widest font-bold">Department</th>
+<th class="p-3 text-label-caps text-slate-500 uppercase tracking-widest font-bold">Status</th>
+<th class="p-3 text-label-caps text-slate-500 uppercase tracking-widest font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="data-table-row transition-all group">
+<td class="p-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-slate-200" data-alt="A professional headshot of a middle-aged academic man with glasses, wearing a sharp navy blue blazer over a crisp white shirt. The background is a blurred university library with soft, warm golden lighting reflecting off leather-bound books. The photography is clean, high-contrast, and exudes a sense of intellectual authority and institutional excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqQBsZ3WdKgijoSdUC5Epu-nPUuERFBYjQWAINmgjgBpc9dvLMY4BKt_M0zlhSRSmxks1yrLkfF4aIKABOeiOg-9lhx4kk31bQB4vBOdzyjhmBNJsd6gVdZ6bYSRmchtA9nXFKiues8a0RKNRZ7jvsTPAdbWmjUBwpUlCX14hBwvg6M_1SLlR-oSH51k6Z3ldS7Xx2tiBo5V-_gbE44fiLEzyIioUZM5OuOZnEuTM12-PNhvNCQBfHMfZ6BEBAM4q-q-mWn8j_tR8"/>
+<div>
+<p class="font-h3 text-base text-primary-container leading-none mb-1">Dr. Julian Vance</p>
+<p class="text-xs text-slate-500">j.vance@university.edu</p>
+</div>
+</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Faculty</span>
+</td>
+<td class="p-3 text-sm text-slate-600 font-body-sm">Dept. of Applied Physics</td>
+<td class="p-3">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-green-700">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                                            Active
+                                        </div>
+</td>
+<td class="p-3 text-right">
+<div class="flex justify-end gap-1">
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">visibility</span></button>
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/20 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="data-table-row bg-slate-50/50 transition-all group">
+<td class="p-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-slate-200" data-alt="A portrait of a young African-American female student smiling warmly, wearing a light grey wool sweater. She is captured in a brightly lit campus atrium with minimalist white architecture and large glass windows. The lighting is soft and airy, creating a modern academic vibe that emphasizes openness and digital-first education styles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlYtB4WhwPKNfP-6LRvh0nJG9Y8DjeHFEuJtf2-QN2UMm_UA2Y9pizC1YyicSb_dCuWyIbJrac2aGiR3wIkofYDYcGm5eYRu4qYrnLsShazO9fX-B14ceTkPb-fSNLm7piLvg7hQIiXBHKKM1IOVIv5A9_KntDlIYNizcmqVPiM5-G-84QGV7Akq13IRdHuzJqAr4oO85SJ4p2M-5T6w9CnO6t4gcuEnSN8T-7giNrvCQRKiBom90z-xrEkXkncAOM3GwttntJRKY"/>
+<div>
+<p class="font-h3 text-base text-primary-container leading-none mb-1">Amara Okafor</p>
+<p class="text-xs text-slate-500">a.okafor@stu.uni.edu</p>
+</div>
+</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-1 bg-surface-container text-primary-container rounded text-[10px] font-bold uppercase tracking-wider">Student</span>
+</td>
+<td class="p-3 text-sm text-slate-600 font-body-sm">Computer Science</td>
+<td class="p-3">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-green-700">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                                            Active
+                                        </div>
+</td>
+<td class="p-3 text-right">
+<div class="flex justify-end gap-1">
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">visibility</span></button>
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/20 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="data-table-row transition-all group">
+<td class="p-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-slate-200" data-alt="A high-quality studio portrait of a woman in her late 30s with a focused expression, wearing a minimalist black turtleneck. The lighting is dramatic yet professional, with a single key light creating depth. The aesthetic is clean and authoritative, fitting for a senior administrative role in a modern, technology-focused university setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7htg6ZX2lrPYc5OH3frStUW4rzM_Mw7v7w1jADFa94oI0eAYQdl5iHDpUs-qm_BYHBYD8jRGaUh3ncvt32ve2x5CsQwosSpuM-5mCEv_qbv9pJGvOR-5AP3nnkdM7-d0mdlKn-GECOxe6auYHL849-cLLm2cV9C4Ms5kYTwkGad62mcg_n5So237io2m1k2sBuzpsfazH_jGMJdvuOFDW1FJDXMSHShu0pQ9AwER3Md4X6ieQyF8MbgP78gSLvGI211glip48Uc8"/>
+<div>
+<p class="font-h3 text-base text-primary-container leading-none mb-1">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">s.jenkins@admin.uni.edu</p>
+</div>
+</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Admin</span>
+</td>
+<td class="p-3 text-sm text-slate-600 font-body-sm">Registrar's Office</td>
+<td class="p-3">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                            Inactive
+                                        </div>
+</td>
+<td class="p-3 text-right">
+<div class="flex justify-end gap-1">
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">visibility</span></button>
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/20 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="data-table-row bg-slate-50/50 transition-all group">
+<td class="p-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-slate-200" data-alt="A portrait of a male graduate student with a thoughtful look, wearing a casual denim shirt over a neutral tee. He is standing in a brightly lit, modern university workspace with white desks and sleek monitors in the background. The lighting is high-key and natural, giving a sense of a contemporary, collaborative learning environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcanKJAn5lZh7qc8qnfRfepXZuyf-O1z1LpbduxgishtHxoIR5xnpfTUyk3ww28PGu74k__6fF192jJb2zf7OekLcH2h3ezUwvlyTNUxL6fXhBMFaggYeFAKHkKU1O3ypde-BIeJ06WFs51kpKHgLxpniuCQtRyHcEHyXBKovRAI503xnChlBHUTi0-YmF0P872o81iq9zzFjayjI8a6I-9TxuNcC55M9DSrMW781hDWwIcJxdEXd8EZqV_xKiE3xS1Ppt_xDTpd8"/>
+<div>
+<p class="font-h3 text-base text-primary-container leading-none mb-1">Leo Martinez</p>
+<p class="text-xs text-slate-500">l.martinez@alum.uni.edu</p>
+</div>
+</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Alumni</span>
+</td>
+<td class="p-3 text-sm text-slate-600 font-body-sm">Architecture &amp; Design</td>
+<td class="p-3">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                            Pending
+                                        </div>
+</td>
+<td class="p-3 text-right">
+<div class="flex justify-end gap-1">
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">visibility</span></button>
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/20 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="data-table-row transition-all group">
+<td class="p-3">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-slate-200" data-alt="A vibrant portrait of an Asian female researcher wearing a smart white laboratory coat. She is in a high-tech science lab with soft blue ambient lighting and metallic surfaces. The image is crisp and clean, reflecting a professional and sophisticated academic atmosphere, emphasizing the university's commitment to research and scientific excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_VigzhjgHF5DTzX0uqcDn_zWVtz6dRBSkDGIEsIk_yK5yiYwMUvhVpWX-KNw5Olzf7xJcKOyZ8Q14YIlVeEH8ZEviHCdQJOuCO-SSNN_ECXp5ElIQa01C7k7PjSiWqENnwrnVpwzXucPC6ZKySkhiT4T0T7mgnYViiY7TpyPCwZEnXa8J7MRkR17efkSNBgAi0VfJqAxaE3eQgcvTql3cqbmNS4pEmVUp4lNIyh_9mkm48pGqL8Gk6-FrikbKdzl4TSaa3dqjUs4"/>
+<div>
+<p class="font-h3 text-base text-primary-container leading-none mb-1">Dr. Yuki Chen</p>
+<p class="text-xs text-slate-500">y.chen@research.uni.edu</p>
+</div>
+</div>
+</td>
+<td class="p-3">
+<span class="px-2 py-1 bg-primary-fixed text-on-primary-fixed-variant rounded text-[10px] font-bold uppercase tracking-wider">Faculty</span>
+</td>
+<td class="p-3 text-sm text-slate-600 font-body-sm">Molecular Biology</td>
+<td class="p-3">
+<div class="flex items-center gap-1.5 text-xs font-semibold text-green-700">
+<span class="w-1.5 h-1.5 rounded-full bg-green-600"></span>
+                                            Active
+                                        </div>
+</td>
+<td class="p-3 text-right">
+<div class="flex justify-end gap-1">
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">visibility</span></button>
+<button class="p-2 text-slate-400 hover:text-primary-container hover:bg-slate-50 rounded transition-colors"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error-container/20 rounded transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-slate-50 border-t border-slate-200 px-6 py-4 flex items-center justify-between">
+<p class="text-xs font-label-caps text-slate-500">Showing 1 to 5 of 2,543 entries</p>
+<div class="flex items-center gap-2">
+<button class="p-1 border border-slate-200 rounded hover:bg-white transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary-container text-white rounded text-xs font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded text-xs font-semibold text-slate-600">2</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded text-xs font-semibold text-slate-600">3</button>
+<span class="text-slate-400 text-xs">...</span>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-white rounded text-xs font-semibold text-slate-600">50</button>
+<button class="p-1 border border-slate-200 rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-auto">
+<div class="flex flex-col items-center justify-center space-y-4 w-full">
+<div class="font-bold text-[#002147] font-['Work_Sans'] text-xs uppercase tracking-widest">UniConnect</div>
+<div class="flex gap-8">
+<a class="text-xs uppercase tracking-widest font-['Work_Sans'] text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-xs uppercase tracking-widest font-['Work_Sans'] text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Institutional Ethics</a>
+<a class="text-xs uppercase tracking-widest font-['Work_Sans'] text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-xs uppercase tracking-widest font-['Work_Sans'] text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Help Desk</a>
+</div>
+<p class="text-slate-400 font-['Work_Sans'] text-xs uppercase tracking-widest">© 2024 University Academic Network. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

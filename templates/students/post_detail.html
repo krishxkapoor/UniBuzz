@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-3 border-bottom border-secondary border-opacity-50 sticky-top bg-black d-flex align-items-center" style="z-index: 1020; opacity: 0.95;">
+    <a href="javascript:history.back()" class="text-white text-decoration-none me-4 fs-5"><i class="bi bi-arrow-left"></i></a>
+    <h4 class="text-white mb-0 fw-bold">Post</h4>
+</div>
+
+<!-- The Post -->
+<div class="border-bottom border-secondary border-opacity-50">
+    {% include 'includes/post_card.html' with post=post detail=True %}
+</div>
+
+{% endblock %}

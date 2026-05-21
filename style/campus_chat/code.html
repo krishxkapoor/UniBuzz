@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UniConnect | Real-Time Academic Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;700&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dde9ff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container": "#e6eeff",
+                        "outline": "#74777f",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#712183",
+                        "secondary-fixed-dim": "#e9c176",
+                        "inverse-surface": "#233144",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#261900",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#d5e3fd",
+                        "primary": "#000a1e",
+                        "secondary": "#775a19",
+                        "background": "#f8f9ff",
+                        "on-background": "#0d1c2f",
+                        "tertiary-container": "#3e004c",
+                        "tertiary": "#190021",
+                        "primary-container": "#002147",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-dim": "#ccdbf4",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#aec7f6",
+                        "secondary-fixed": "#ffdea5",
+                        "on-tertiary-fixed": "#350041",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-surface": "#0d1c2f",
+                        "primary-fixed-dim": "#aec7f6",
+                        "secondary-container": "#fed488",
+                        "surface-variant": "#d5e3fd",
+                        "on-surface-variant": "#44474e",
+                        "on-tertiary-container": "#bc68cb",
+                        "surface-tint": "#465f88",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-fixed": "#fed6ff",
+                        "on-secondary-container": "#785a1a",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "tertiary-fixed-dim": "#f6adff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "margin": "32px",
+                        "xl": "32px",
+                        "3xl": "64px",
+                        "sm": "8px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Work Sans"],
+                        "h2": ["Newsreader"],
+                        "body-sm": ["Work Sans"],
+                        "body-md": ["Work Sans"],
+                        "body-lg": ["Work Sans"],
+                        "h3": ["Newsreader"],
+                        "h1": ["Newsreader"],
+                        "button": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { background-color: #f8f9ff; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .active-chat { background-color: #f1f5f9; border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center w-full px-8 py-3 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100 font-['Newsreader']">UniConnect</span>
+<nav class="hidden md:flex space-x-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-body-sm" href="#">Feed</a>
+<a class="text-[#002147] border-b-2 border-amber-500 pb-1 font-semibold font-body-sm" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-body-sm" href="#">Directory</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-body-sm" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 py-6 font-['Work_Sans'] text-sm tracking-tight">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+<img alt="Crest" class="w-6 h-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNy6R7_GluZod4Emh3N0Q5upU9H3py1tue4dCUbOZ6y6uLv1TMBmssHO0QkZJWMfwMbvFcd9TwlmgMxV3iaI2aIW5I46nPM75XjoiB23Q7m9m9D02CF8Vd0FGWY6Da_jOgR39rJ_vNTBor4tn1zrqaWu1UuNlwE8oNoKxiyRFiPElidd9ibFhhNB2MTXOrwxhzLK5CwYwzimOz7qMJt6afpWInCv0tZfOJJw721NRrQ-R-zQv6xdcUpRx45SKDokbACm28wQSD8YU"/>
+</div>
+<div>
+<div class="text-[#002147] font-bold">University Portal</div>
+<div class="text-xs text-slate-400">Academic Excellence</div>
+</div>
+</div>
+<nav class="flex-1">
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home Feed</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-amber-500 bg-slate-50 dark:bg-slate-800 text-[#002147] font-bold px-6 py-3" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span>Campus Groups</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined">science</span>
+<span>Research Hub</span>
+</a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Alumni Network</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-primary-container text-white font-button py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">edit</span>
+                    Create Post
+                </button>
+</div>
+</aside>
+<!-- Chat Container -->
+<section class="flex-1 flex overflow-hidden">
+<!-- Panel 1: Contacts -->
+<div class="w-80 border-r border-slate-200 bg-white flex flex-col">
+<div class="p-6 border-b border-slate-100">
+<h2 class="font-h3 text-primary mb-4">Messages</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none" placeholder="Search contacts..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Contact Item -->
+<div class="p-4 flex gap-4 cursor-pointer hover:bg-slate-50 active-chat transition-colors">
+<div class="relative">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="A professional studio portrait of a young female academic researcher with glasses, smiling confidently against a soft-focus library background. The lighting is warm and intellectual, emphasizing a clean, high-contrast academic aesthetic consistent with a modern university digital platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJxxxgme1mTRETOKquGZRt5uXPsj8D1-Hy5MP3CVnOueTCzJI9skkerLNPHZaK_d5nQdUgcE8wzP7T0UJUebp4IDdaSlyWSIrWKSC5veNWkn6eM148k1bPSFKKtl-LPgSWM8KGSTFgacUSQrslq2CRBasI_8oVOmuEuASpY1cJNdpcNRktkAokUGngO087kckwzJWRId06IImUw7KCrkCm6uB9PzUgSm7WlrGRyEu0wi6_-WniMJ7VqDdLEbJel-Jiu0KOW27cz9A"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<span class="font-semibold text-primary truncate">Dr. Sarah Jenkins</span>
+<span class="text-[10px] text-slate-400 uppercase">10:24 AM</span>
+</div>
+<p class="text-sm text-slate-500 truncate">The research proposal looks solid. Let's discuss the ethics approval...</p>
+</div>
+</div>
+<!-- Contact Item -->
+<div class="p-4 flex gap-4 cursor-pointer hover:bg-slate-50 border-l-4 border-transparent transition-colors">
+<div class="relative">
+<img alt="Avatar" class="w-12 h-12 rounded-full object-cover" data-alt="A high-quality headshot of a male university student in his early twenties, featuring soft natural lighting and a neutral professional expression. He is wearing a simple navy crewneck, and the background is a clean, minimalist campus environment with architectural lines that evoke a sense of academic focus and modern professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXbK2wZQC71Xsqff_EH9HrGYm2wu6YpQpfuSGtu7Yz_6AWpleUnOBVXpYaNjTV6ssb9y9cUB9t2CBLYxfCI4Ph9Zb9XyE9OxwEErdXUz0y5UjC4FEiwLTgW4Z2k4XHyhG5pVt7CP9vP71-w0uxlanxun1BDvuBjSM3PzCW5URN4uuE_IcUb_QT4kVDM4Ra-ItKSQWq4AthwwGPRH4b8ospVRcF3-sc6N-yEKxtD_iW_EYTwOEiuJ1XRaKRJtxKLYz8o_YTtosoyvA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<span class="font-semibold text-primary truncate">Marcus Chen</span>
+<span class="text-[10px] text-slate-400 uppercase">Yesterday</span>
+</div>
+<p class="text-sm text-slate-500 truncate">Did you get the notes from the Graduate Seminar?</p>
+</div>
+</div>
+<!-- Contact Item -->
+<div class="p-4 flex gap-4 cursor-pointer hover:bg-slate-50 border-l-4 border-transparent transition-colors">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500">ML</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<span class="font-semibold text-primary truncate">Molecular Lab Group</span>
+<span class="text-[10px] text-slate-400 uppercase">Tuesday</span>
+</div>
+<p class="text-sm text-slate-500 truncate">Professor: Please upload the latest data sets by 5pm.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel 2: Message History -->
+<div class="flex-1 flex flex-col bg-slate-50">
+<!-- Chat Header -->
+<div class="px-8 py-4 bg-white border-b border-slate-200 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<img alt="Avatar" class="w-10 h-10 rounded-full object-cover" data-alt="Close up portrait of Dr. Sarah Jenkins, an academic with a professional demeanor, looking directly at the camera. The setting is a bright, sunlit office with academic books blurred in the background, creating a mood of institutional trust and modern intellectual rigor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJnn-9m26Rmb0ZAoyAJb7dliGd8VBjWwW4mwhmpXO7iDGX5V8ds-bAA6x2htHqGdOcMWpSG1omOyrB-0GjpjrQfZUQ6s0OQ9xyvhk2twF9IvNKHum_BiVfX_OFoe1aP-aG_ma9CKB6FZ6Gv5o9mr7QyiN3RAS1f9HxXv9fFz8T5fqiNmDY4lXd4aa8iclre74K9zMRAgRilDKsMpC205KxqNv8czjyVFt5gyqhmh3p2TZKxu03IPP4zM57XLjATm-ueTrHrJ-iKYA"/>
+<div>
+<div class="font-semibold text-primary">Dr. Sarah Jenkins</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-xs text-slate-400 uppercase tracking-wider font-label-caps">Active Now</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">videocam</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages -->
+<div class="flex-1 overflow-y-auto p-8 flex flex-col gap-6 custom-scrollbar">
+<div class="flex justify-center">
+<span class="text-[10px] font-label-caps text-slate-400 bg-slate-200/50 px-3 py-1 rounded-full uppercase">Today, Oct 24</span>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img alt="Avatar" class="w-8 h-8 rounded-full object-cover" data-alt="A small circular avatar image of a female professor in a white lab coat, conveying authority and scholarly focus within a clean, modern digital interface context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC54Tht8u6lpPFqA5HsFbP6tS2L6vKFVJFiNwMTHkqhM8SW-8tI3wnM1y0FaEjJ72xzya7Lpd0ONFESOzJ_pRiFnTlPEMwHFE15X36kFz6n2gERxCoM-GFiiMVSO77MtWI-eNLXHyOE6GejzGmjJEr4AsJzuY55Ai_9D7ygslkSOT0c1fAasXQp73dLfqY5iGju5mqCDoBJCI8XCln4oIZqk5UybMwFyZKy50KeszqWA7jpI-EjOQNNDwsJBgyeapGyvCygMhJODIY"/>
+<div class="bg-white border border-slate-200 p-4 rounded-xl rounded-tl-none shadow-sm">
+<p class="text-body-md text-on-surface">Good morning! I've reviewed the draft for the peer-review article. The methodology section needs more clarity regarding the control group variables.</p>
+<span class="text-[10px] text-slate-400 mt-2 block text-right">10:15 AM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex gap-3 max-w-[80%] self-end flex-row-reverse">
+<div class="bg-primary-container text-white p-4 rounded-xl rounded-tr-none shadow-sm">
+<p class="text-body-md">Understood, Dr. Jenkins. I've already started drafting a revised version based on the lab results from yesterday. I'll include the new data sets.</p>
+<span class="text-[10px] text-blue-200/60 mt-2 block text-right">10:22 AM</span>
+</div>
+</div>
+<!-- Received Message -->
+<div class="flex gap-3 max-w-[80%]">
+<img alt="Avatar" class="w-8 h-8 rounded-full object-cover" data-alt="A small circular avatar image of a female professor in a white lab coat, conveying authority and scholarly focus within a clean, modern digital interface context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAij2gGVU2AQdYPiaTleKYoJKjto3BuXGiW-zCA8ECdZ0iatUKrcPiGeo3fGBXeE3fHwCUAhRnYvB6qmiU1TEmgEImiIn1bDzejkoe6MPuNhMGK8AeBjO0Unbhf_JAIk6gqo2jhNWFw6o3_9trfoxxDqrkr5ctAk2IpVSsIAryqE1mCYRk_aFE54iouqzRK1zxV8jxF-5Y1JdQnJOMZNZdoNPvAdDkCbh7FVGeh_a8n9PK5ob161cq-8wkj9-9okPwDQWoOHgGLEB4"/>
+<div class="bg-white border border-slate-200 p-4 rounded-xl rounded-tl-none shadow-sm">
+<p class="text-body-md text-on-surface">Excellent. Also, please make sure to check the ethics approval document I've attached. We need the Institutional Ethics Committee signature by Friday.</p>
+<div class="mt-3 p-3 bg-slate-50 border border-slate-100 rounded flex items-center gap-3">
+<span class="material-symbols-outlined text-amber-600">description</span>
+<div class="flex-1 overflow-hidden">
+<div class="text-xs font-semibold text-primary truncate">Ethics_Approval_Form_V2.pdf</div>
+<div class="text-[10px] text-slate-400 uppercase">2.4 MB • PDF</div>
+</div>
+<button class="text-primary hover:text-secondary-container transition-colors">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+</div>
+<span class="text-[10px] text-slate-400 mt-2 block text-right">10:24 AM</span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-6 bg-white border-t border-slate-200">
+<div class="bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-end gap-2 focus-within:border-primary-container transition-colors">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none py-2 text-sm custom-scrollbar" placeholder="Type an academic query or message..." rows="1"></textarea>
+<div class="flex gap-1 pb-1 pr-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">sentiment_satisfied</span>
+</button>
+<button class="bg-primary-container text-white p-2 rounded-lg hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel 3: Details -->
+<div class="w-72 border-l border-slate-200 bg-white flex flex-col">
+<div class="p-8 flex flex-col items-center text-center border-b border-slate-100">
+<img alt="Avatar" class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-slate-100 p-1" data-alt="A detailed professional profile photo of Dr. Sarah Jenkins. She is an associate professor with a friendly but serious expression, wearing a navy blazer. The lighting is high-key and professional, suitable for a university faculty directory. The background is a soft blue gradient reflecting the university's primary color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1ukK3DKoma3czCCK8-FN4j3Nbml2pNUz94c_DUobQuwzbyPRKg7MKwi9FHoEzEDvJ0jUpsQ3AqOA-95DD7x0ipYrP2na7rMRYL8URfCW4fSuPwJ1_gWbhCFfvvI-03gCD-blU1EfHVdqYQceihDh_7WYhSH1zpjM3133ImcFpGPnr43xpgwgxF5ooHyy00qJi6tQtpnICD388yss4owrIuOVpYjUGXB3NJilEtSoLi0vtQuF7b8Lm_7YSjmKSkv0QJ6m4f4BATiw"/>
+<h3 class="font-h3 text-primary text-xl">Dr. Sarah Jenkins</h3>
+<span class="text-xs font-label-caps text-amber-600 bg-amber-50 px-2 py-0.5 rounded mt-1 uppercase">Senior Faculty</span>
+<p class="text-xs text-slate-500 mt-3 font-body-sm">Department of Molecular Biology<br/>Office: Science Wing, Room 402</p>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6">
+<div class="mb-8">
+<h4 class="text-[10px] font-label-caps text-slate-400 uppercase tracking-widest mb-4">Shared Files</h4>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded group cursor-pointer transition-colors">
+<div class="w-10 h-10 bg-blue-50 rounded flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">article</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<div class="text-xs font-semibold text-primary truncate">Research_Draft_Q4.docx</div>
+<div class="text-[10px] text-slate-400 uppercase">Oct 20, 2024</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded group cursor-pointer transition-colors">
+<div class="w-10 h-10 bg-amber-50 rounded flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<div class="text-xs font-semibold text-primary truncate">Ethics_Approval_Form_V2.pdf</div>
+<div class="text-[10px] text-slate-400 uppercase">Today, 10:24 AM</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-slate-50 rounded group cursor-pointer transition-colors">
+<div class="w-10 h-10 bg-green-50 rounded flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">table_chart</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<div class="text-xs font-semibold text-primary truncate">Lab_Results_Dataset.csv</div>
+<div class="text-[10px] text-slate-400 uppercase">Oct 18, 2024</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 text-[10px] font-label-caps text-primary hover:underline uppercase text-center">View All Shared Files</button>
+</div>
+<div>
+<h4 class="text-[10px] font-label-caps text-slate-400 uppercase tracking-widest mb-4">Action Center</h4>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex flex-col items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="text-[10px] font-semibold text-primary uppercase">Schedule</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined text-primary">folder_shared</span>
+<span class="text-[10px] font-semibold text-primary uppercase">Drive</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined text-primary">mail</span>
+<span class="text-[10px] font-semibold text-primary uppercase">Email</span>
+</button>
+<button class="flex flex-col items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+<span class="material-symbols-outlined text-error">block</span>
+<span class="text-[10px] font-semibold text-error uppercase">Mute</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Suppressed for focus-intensive application (Chat) as per the "Destination Rule" -->
+</body></html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifications - UniConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600;700&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dde9ff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container": "#e6eeff",
+                        "outline": "#74777f",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#712183",
+                        "secondary-fixed-dim": "#e9c176",
+                        "inverse-surface": "#233144",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#261900",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#d5e3fd",
+                        "primary": "#000a1e",
+                        "secondary": "#775a19",
+                        "background": "#f8f9ff",
+                        "on-background": "#0d1c2f",
+                        "tertiary-container": "#3e004c",
+                        "tertiary": "#190021",
+                        "primary-container": "#002147",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-dim": "#ccdbf4",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#aec7f6",
+                        "secondary-fixed": "#ffdea5",
+                        "on-tertiary-fixed": "#350041",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-surface": "#0d1c2f",
+                        "primary-fixed-dim": "#aec7f6",
+                        "secondary-container": "#fed488",
+                        "surface-variant": "#d5e3fd",
+                        "on-surface-variant": "#44474e",
+                        "on-tertiary-container": "#bc68cb",
+                        "surface-tint": "#465f88",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-fixed": "#fed6ff",
+                        "on-secondary-container": "#785a1a",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "tertiary-fixed-dim": "#f6adff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Work Sans"],
+                        "h2": ["Newsreader"],
+                        "body-sm": ["Work Sans"],
+                        "body-md": ["Work Sans"],
+                        "body-lg": ["Work Sans"],
+                        "h3": ["Newsreader"],
+                        "h1": ["Newsreader"],
+                        "button": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-8 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100 font-['Newsreader'] antialiased">UniConnect</span>
+<div class="hidden md:flex items-center space-x-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-['Work_Sans'] transition-colors" href="#">Feed</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-['Work_Sans'] transition-colors" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] font-['Work_Sans'] transition-colors" href="#">Directory</a>
+<a class="text-[#002147] border-b-2 border-amber-500 pb-1 font-semibold font-['Work_Sans'] transition-colors" href="#">Dashboard</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-amber-500 rounded-full"></span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<div class="max-w-7xl mx-auto flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full py-6 bg-white dark:bg-slate-900 h-screen w-64 fixed left-0 border-r border-slate-200 dark:border-slate-800 font-['Work_Sans'] text-sm tracking-tight">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded overflow-hidden">
+<img alt="University Crest" data-alt="A sophisticated university crest emblem featuring classical academic symbols like an open book and a laurel wreath, rendered in high-contrast navy and gold. The style is traditional yet refined, suitable for a prestigious educational institution, set against a clean white background with sharp, professional vector lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjXL7B7fbfSglbGMnYDgZj8rdJ06ZRdBwfoI5sdxNTHUtHXXM7J0RW5USLi6sUCdmIukPXE0OzKPjp58YtcMFpxeO9vn78o2AVtTqrkG-ugIOKlJxYyLmqpTohwKtAVE7o7glVBsYIU6C5si1SeZptMV-TmII9kmBK8mvttq2sYmtYUM_2-Z_J4gJdUfgqkDOcm5ujONWn26DwkC7TvpVS9iN2PxLZj5sRoKab7SeCq6MJ539BZcz01Byec1ecHmLd3tiBGCpWPkY"/>
+</div>
+<div>
+<h2 class="text-lg font-bold text-[#002147]">University Portal</h2>
+<p class="text-[10px] uppercase tracking-widest text-slate-400">Academic Excellence</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span> Home Feed
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span> Campus Groups
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span> Research Hub
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span> Alumni Network
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-6 py-3 hover:bg-slate-50" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span> Admin Management
+                </a>
+</nav>
+<div class="px-6 mt-auto">
+<button class="w-full bg-[#002147] text-white py-3 rounded-lg font-medium hover:bg-opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Create Post
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-8 bg-background">
+<header class="mb-10 max-w-4xl mx-auto">
+<h1 class="font-h1 text-h1 text-primary mb-2">Notifications</h1>
+<p class="font-body-md text-on-surface-variant">Stay updated with your academic circle and campus activities.</p>
+</header>
+<!-- Filters Section -->
+<div class="max-w-4xl mx-auto mb-8">
+<div class="flex flex-wrap gap-4 border-b border-slate-200">
+<button class="pb-4 px-2 font-label-caps text-label-caps border-b-2 border-amber-500 text-primary">All</button>
+<button class="pb-4 px-2 font-label-caps text-label-caps border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors">Unread</button>
+<button class="pb-4 px-2 font-label-caps text-label-caps border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors">Mentions</button>
+<button class="pb-4 px-2 font-label-caps text-label-caps border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors">Campus Alerts</button>
+</div>
+</div>
+<!-- Notifications List -->
+<div class="max-w-4xl mx-auto space-y-4">
+<!-- Notification Group: Today -->
+<div class="mb-8">
+<h3 class="font-label-caps text-label-caps text-on-secondary-container bg-secondary-fixed px-3 py-1 inline-block rounded-full mb-4">Today</h3>
+<div class="space-y-3">
+<!-- Notification Card 1 (Mention) -->
+<div class="bg-white border border-slate-200 p-6 flex gap-4 hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-shadow">
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-slate-100">
+<img alt="Dr. Sarah Chen" data-alt="A professional headshot of a young university professor in a bright, sunlit office environment. The lighting is soft and natural, emphasizing a professional and welcoming academic atmosphere. The background shows blurred books and a wooden desk, maintaining a focus on the subject who wears smart, contemporary professional attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnyYDH2m6IbXiuKNCkns3Q-CH-r-Cuk_RnxuXrlS19moJFNXEe3kZQZKuOuaSd2bF4hYP7rgHspZ04A-yFM7KX94VV1wkxRQCmYQ3UmrcW4TYrUeyY7fnVpiIMOSUfi7fTdRkzTkIRZMdiyWSPE_j6yIsb1wXX-QyhHairpkB9wLAdxEanMWqTYo4oZs6oatbsTL7LK0lSyz4gLs0beE58gfcvMqn8FRsZqsDQ9MNWCWoKmcV5ifMHPqe9RRJf_qXmu2NXuIANi5c"/>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-h3 text-body-lg text-primary">Dr. Sarah Chen <span class="font-normal text-on-surface-variant text-body-md">mentioned you in</span> Research Methodology Group</h4>
+<span class="font-body-sm text-on-surface-variant">2h ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-4">"Great insights on the qualitative data analysis portion, @Student. Could you please review the updated appendix?"</p>
+<div class="flex gap-3">
+<a class="font-button text-button text-[#002147] border border-[#002147] px-4 py-2 hover:bg-slate-50 transition-colors" href="#">View Mention</a>
+<a class="font-button text-button text-on-surface-variant px-4 py-2 hover:bg-slate-50 transition-colors" href="#">Dismiss</a>
+</div>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center">
+<span class="material-symbols-outlined text-amber-500" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+<!-- Notification Card 2 (Campus Alert) -->
+<div class="bg-surface-container-low border border-slate-200 p-6 flex gap-4 hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-shadow">
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-h3 text-body-lg text-primary">Campus Security <span class="font-normal text-on-surface-variant text-body-md">issued an</span> Urgent Alert</h4>
+<span class="font-body-sm text-on-surface-variant">5h ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-4">Scheduled maintenance on the main campus library electrical system tonight from 10 PM. The North Wing will be closed.</p>
+<div class="flex gap-3">
+<a class="font-button text-button bg-[#002147] text-white px-4 py-2 hover:bg-opacity-90 transition-colors" href="#">Details</a>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 text-[10px] uppercase font-bold rounded flex items-center">Official</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Notification Group: Yesterday -->
+<div class="mb-8">
+<h3 class="font-label-caps text-label-caps text-slate-400 mb-4 px-2">Yesterday</h3>
+<div class="space-y-3 opacity-80">
+<!-- Notification Card 3 (Department) -->
+<div class="bg-white border border-slate-200 p-6 flex gap-4 hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-shadow">
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-[#002147]" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-h3 text-body-lg text-primary">Office of Registrar <span class="font-normal text-on-surface-variant text-body-md">updated your</span> Enrollment Status</h4>
+<span class="font-body-sm text-on-surface-variant">1d ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-4">Your application for the Summer Internship Program has been formally processed and approved.</p>
+<div class="flex gap-3">
+<a class="font-button text-button text-[#002147] border border-[#002147] px-4 py-2 hover:bg-slate-50 transition-colors" href="#">Download PDF</a>
+</div>
+</div>
+</div>
+<!-- Notification Card 4 (Group Activity) -->
+<div class="bg-white border border-slate-200 p-6 flex gap-4 hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-shadow">
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-slate-100">
+<img alt="Group Activity" data-alt="A portrait of a diverse group of college students collaborating in a modern glass-walled study room. The scene is bright with cool blue and white tones, reflecting a clean university aesthetic. The focus is on a smiling student with a laptop, while others discuss notes in the background, creating a mood of active, modern academic engagement." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyZJMgdYYC4g8Rg7UAToBJP3CCY7tqShUd9A90SkxWLyuoMTDiAoUX7izXzqiXtrQXx0aqtZ7X4bUx8KZOOLYhUASF7s60iM9CCDn_BhQ_l1v6lv1EXnMng7Dq3ytbp-qFJnf5412ki7UJ4kN9yZ9sGhYakRzcLWbtGTjpldFLu1_6d0ZdZBrR0cxCkQdRPwowoGdq69L7QsRtSA0WDV_4D0R9FIXBr_jnmcXOBeYOA3NiZDAgkXv8mb8vvRd-fxU4CxYMPp7yMEc"/>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-h3 text-body-lg text-primary">Architecture Collective <span class="font-normal text-on-surface-variant text-body-md">posted a new</span> Announcement</h4>
+<span class="font-body-sm text-on-surface-variant">1d ago</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-4">Reminder: The annual portfolio showcase is next Friday. Please submit your digital boards by EOD Wednesday.</p>
+<div class="flex gap-3">
+<a class="font-button text-button text-[#002147] border border-[#002147] px-4 py-2 hover:bg-slate-50 transition-colors" href="#">Check Deadline</a>
+</div>
+</div>
+<div class="flex-shrink-0">
+<span class="material-symbols-outlined text-slate-300" data-icon="groups">groups</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Simulation (Small) -->
+<div class="max-w-4xl mx-auto py-12 flex flex-col items-center justify-center border-2 border-dashed border-slate-200 rounded-xl mt-12">
+<span class="material-symbols-outlined text-6xl text-slate-200 mb-4" data-icon="notifications_off">notifications_off</span>
+<p class="text-slate-400 font-body-md">You've reached the end of your recent notifications.</p>
+<button class="mt-4 font-button text-button text-[#002147] hover:underline">View Notification Archive</button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-auto font-['Work_Sans'] text-xs uppercase tracking-widest">
+<div class="flex flex-col items-center justify-center space-y-4 w-full">
+<span class="font-bold text-[#002147] text-sm">UniConnect</span>
+<div class="flex space-x-6">
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Institutional Ethics</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Help Desk</a>
+</div>
+<p class="text-slate-400 mt-4">© 2024 University Academic Network. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

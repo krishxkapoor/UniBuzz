@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40 flex justify-between items-center">
+    <h2 class="font-serif text-xl font-bold text-primary-container">Institutional Command Center</h2>
+    <div class="flex gap-2">
+        <span class="flex items-center gap-1 text-[10px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 uppercase tracking-widest">
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Systems Active
+        </span>
+    </div>
+</div>
+
+<div class="p-6">
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                    <span class="material-symbols-outlined">groups</span>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Total Students</span>
+            </div>
+            <h2 class="text-3xl font-serif font-bold text-primary-container">{{ total_students }}</h2>
+            <div class="mt-2 flex items-center gap-1 text-[10px] font-bold text-green-600 uppercase">
+{#                <span class="material-symbols-outlined text-xs">trending_up</span> 12% vs last month#}
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
+                    <span class="material-symbols-outlined">school</span>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Total Faculty</span>
+            </div>
+            <h2 class="text-3xl font-serif font-bold text-primary-container">{{ total_teachers }}</h2>
+            <div class="mt-2 flex items-center gap-1 text-[10px] font-bold text-slate-500 uppercase">
+{#                <span class="material-symbols-outlined text-xs">remove</span> Stable growth#}
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-600">
+                    <span class="material-symbols-outlined">description</span>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Scholarly Posts</span>
+            </div>
+            <h2 class="text-3xl font-serif font-bold text-primary-container">{{ total_posts }}</h2>
+            <div class="mt-2 flex items-center gap-1 text-[10px] font-bold text-green-600 uppercase">
+{#                <span class="material-symbols-outlined text-xs">trending_up</span> 5.2k interactions#}
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-600">
+                    <span class="material-symbols-outlined">flag</span>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Pending Reports</span>
+            </div>
+            <h2 class="text-3xl font-serif font-bold text-error">{{ pending_reports }}</h2>
+            <a href="{% url 'admin_reports' %}" class="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-error uppercase hover:underline">
+{#                Requires Action <span class="material-symbols-outlined text-xs">chevron_right</span>#}
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- Management Actions -->
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
+        <!-- Regular Post -->
+        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-primary-container">
+                    <span class="material-symbols-outlined text-sm">edit_square</span>
+                </div>
+                <h4 class="font-serif font-bold text-primary-container">System Broadcast</h4>
+            </div>
+            <form action="{% url 'admin_post_create' %}" method="post" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="pin" value="0">
+                <textarea name="content" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container min-h-[100px]" placeholder="Broadcasting a system update..." required></textarea>
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">image</span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest">Attach Media</span>
+                        <input type="file" name="image" class="hidden" accept="image/*">
+                    </label>
+                    <button type="submit" class="px-8 py-2 bg-primary-container text-white text-xs font-bold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20">Post Update</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Pinned Announcement -->
+        <div class="bg-primary-container p-6 rounded-2xl shadow-xl shadow-primary-container/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+                <span class="material-symbols-outlined text-9xl rotate-12">keep</span>
+            </div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-6 text-white">
+                    <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
+                        <span class="material-symbols-outlined text-sm">push_pin</span>
+                    </div>
+                    <h4 class="font-serif font-bold">Institutional Directive</h4>
+                </div>
+                <form action="{% url 'admin_post_create' %}" method="post" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="pin" value="1">
+                    <textarea name="content" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/50 placeholder-white/40 min-h-[100px]" placeholder="Issuing an official announcement..." required></textarea>
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer group">
+                            <span class="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">attachment</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest">Document</span>
+                            <input type="file" name="image" class="hidden" accept="image/*">
+                        </label>
+                        <button type="submit" class="px-8 py-2 bg-amber-500 text-[#261900] text-xs font-bold rounded-full hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20">PIN ANNOUNCEMENT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- All Posts Feed -->
+<div class="p-6 pt-0 space-y-6">
+    <div class="flex items-center gap-3 mb-4">
+        <span class="material-symbols-outlined text-primary-container">feed</span>
+        <h3 class="font-serif text-lg font-bold text-primary-container">Administrative Feed History</h3>
+    </div>
+    {% for post in posts %}
+        {% include 'includes/post_card.html' with post=post %}
+    {% empty %}
+        <div class="py-20 text-center bg-white border border-slate-200 rounded-xl">
+            <h5 class="font-serif text-lg text-primary-container font-bold">Log is empty</h5>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Oxford Blue Palette for Chart.js
+    const PALETTE = {
+        primary: '#002147',
+        secondary: '#f59e0b',
+        success: '#059669',
+        error: '#dc2626',
+        slate: '#64748b',
+        grid: 'rgba(0,33,71,0.05)',
+        text: '#64748b'
+    };
+
+    const chartDefaults = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { 
+                display: false,
+                labels: { font: { family: 'Work Sans', size: 10, weight: 'bold' }, color: PALETTE.text } 
+            } 
+        },
+        scales: {
+            x: { 
+                ticks: { font: { family: 'Work Sans', size: 10 }, color: PALETTE.text }, 
+                grid: { display: false } 
+            },
+            y: { 
+                ticks: { font: { family: 'Work Sans', size: 10 }, color: PALETTE.text }, 
+                grid: { color: PALETTE.grid },
+                beginAtZero: true 
+            }
+        }
+    };
+
+    // Posts Per Day
+    new Chart(document.getElementById('postsPerDayChart'), {
+        type: 'line',
+        data: {
+            labels: {{ posts_per_day_labels|safe }},
+            datasets: [{
+                data: {{ posts_per_day_data|safe }},
+                borderColor: PALETTE.primary,
+                backgroundColor: 'rgba(0,33,71,0.05)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 4,
+                pointBackgroundColor: PALETTE.primary
+            }]
+        },
+        options: { ...chartDefaults }
+    });
+
+    // Reaction Distribution (Doughnut)
+    new Chart(document.getElementById('reactionChart'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ reaction_labels|safe }},
+            datasets: [{
+                data: {{ reaction_values|safe }},
+                backgroundColor: [PALETTE.error, PALETTE.secondary, PALETTE.primary, PALETTE.success],
+                borderWidth: 4,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { 
+                legend: { 
+                    display: true, 
+                    position: 'bottom',
+                    labels: { font: { family: 'Work Sans', size: 10, weight: 'bold' }, usePointStyle: true } 
+                } 
+            }
+        }
+    });
+
+    // Top Liked Posts
+    new Chart(document.getElementById('topPostsChart'), {
+        type: 'bar',
+        data: {
+            labels: {{ top_post_labels|safe }},
+            datasets: [{
+                data: {{ top_post_values|safe }},
+                backgroundColor: PALETTE.primary,
+                borderRadius: 4
+            }]
+        },
+        options: { ...chartDefaults }
+    });
+
+    // Active vs Blocked (Grouped Bar)
+    new Chart(document.getElementById('userStatusChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Students', 'Teachers'],
+            datasets: [
+                {
+                    label: 'Active',
+                    data: [{{ active_students }}, {{ active_teachers }}],
+                    backgroundColor: PALETTE.success,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Blocked',
+                    data: [{{ blocked_students }}, {{ blocked_teachers }}],
+                    backgroundColor: PALETTE.error,
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: { 
+            ...chartDefaults, 
+            plugins: { legend: { display: true, position: 'top', labels: { boxWidth: 10, font: { size: 10 } } } },
+            scales: { ...chartDefaults.scales, x: { ...chartDefaults.scales.x, stacked: false } } 
+        }
+    });
+</script>
+{% endblock %}
+

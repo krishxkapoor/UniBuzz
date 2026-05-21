@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col h-[calc(100vh-64px)]">
+    <!-- Chat Header -->
+    <div class="bg-white border-b border-slate-200 px-6 py-4 shrink-0">
+        <div class="flex items-center gap-4 max-w-4xl mx-auto">
+            <a href="{% url 'teacher_chat' %}" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-500 transition-colors shrink-0">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            
+            {% if other_user.profile_pic %}
+            <img src="{{ other_user.profile_pic.url }}" class="w-12 h-12 rounded-full object-cover border border-slate-200 shrink-0">
+            {% else %}
+            <div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container font-bold text-lg shrink-0">
+                {{ other_user.name|first|upper }}
+            </div>
+            {% endif %}
+            
+            <div class="flex-1 min-w-0">
+                <h2 class="text-xl font-bold font-serif text-primary-container truncate">{{ other_user.name }}</h2>
+                <div class="flex items-center gap-2">
+                    {% if other_user.user_role == 'student' %}
+                    <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-100 rounded text-[10px] font-bold uppercase tracking-wider shrink-0">Student</span>
+                    <span class="text-xs text-slate-500 truncate">{{ other_user.roll_number }}</span>
+                    {% else %}
+                    <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] font-bold uppercase tracking-wider shrink-0">Faculty</span>
+                    <span class="text-xs text-slate-500 truncate">{{ other_user.employee_id }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Messages Area -->
+    <div class="flex-1 overflow-y-auto p-6 bg-slate-50/50" id="chat-messages">
+        <div class="max-w-4xl mx-auto flex flex-col gap-4">
+            {% for msg in messages_list %}
+                {% if msg.sender_role == 'teacher' and msg.sender_id == request.session.teacher_id %}
+                <!-- Own Message -->
+                <div class="flex flex-col items-end">
+                    <div class="bg-primary-container text-white px-5 py-3 rounded-2xl rounded-tr-sm max-w-[85%] shadow-sm">
+                        <p class="text-[15px] whitespace-pre-wrap">{{ msg.content }}</p>
+                    </div>
+                    <span class="text-[11px] text-slate-400 mt-1 mr-1">{{ msg.timestamp|time:"g:i A" }}</span>
+                </div>
+                {% else %}
+                <!-- Received Message -->
+                <div class="flex flex-col items-start">
+                    <div class="bg-white border border-slate-200 text-slate-800 px-5 py-3 rounded-2xl rounded-tl-sm max-w-[85%] shadow-sm">
+                        <p class="text-[15px] whitespace-pre-wrap">{{ msg.content }}</p>
+                    </div>
+                    <span class="text-[11px] text-slate-400 mt-1 ml-1">{{ msg.timestamp|time:"g:i A" }}</span>
+                </div>
+                {% endif %}
+            {% empty %}
+            <div class="py-12 text-center text-slate-400">
+                <span class="material-symbols-outlined text-4xl mb-2">forum</span>
+                <p>No messages yet. Send a message to start the conversation!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <div class="bg-white border-t border-slate-200 p-4 shrink-0">
+        <div class="max-w-4xl mx-auto">
+            <form method="post" class="flex gap-3">
+                {% csrf_token %}
+                <input type="text" name="content" required autocomplete="off" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container focus:bg-white transition-all placeholder:text-slate-400" placeholder="Type a message...">
+                <button type="submit" class="w-12 h-12 bg-primary-container text-white rounded-xl flex items-center justify-center hover:bg-opacity-90 transition-colors shrink-0">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Scroll to bottom of chat on load
+const chatContainer = document.getElementById('chat-messages');
+chatContainer.scrollTop = chatContainer.scrollHeight;
+</script>
+{% endblock %}

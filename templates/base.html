@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBuzz | UniConnect</title>
+    <!-- Tailwind CSS with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Newsreader, Work Sans, Material Symbols -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet">
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#dde9ff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container": "#e6eeff",
+                        "outline": "#74777f",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-surface": "#233144",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#d5e3fd",
+                        "primary": "#000a1e",
+                        "secondary": "#775a19",
+                        "background": "#f8f9ff",
+                        "on-background": "#0d1c2f",
+                        "primary-container": "#002147",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#708ab5",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#ccdbf4",
+                        "inverse-primary": "#aec7f6",
+                        "on-surface": "#0d1c2f",
+                        "secondary-container": "#fed488",
+                        "on-secondary-container": "#785a1a",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "container-max": "1280px",
+                    },
+                    fontFamily: {
+                        "serif": ["Newsreader", "serif"],
+                        "sans": ["Work Sans", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-nav-border {
+            border-left: 4px solid #f59e0b;
+            background-color: #f1f5f9;
+            font-weight: 700;
+            color: #002147;
+        }
+
+        body {
+            background-color: #f8f9ff;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccdbf4;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #aec7f6;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-on-surface bg-background antialiased" data-role="{{ request.session.role|default:'' }}">
+
+<!-- TopNavBar -->
+<header class="bg-white border-b border-slate-200 fixed top-0 w-full z-50 h-16">
+    <div class="flex justify-between items-center h-full px-4 md:px-8 max-w-7xl mx-auto">
+        <div class="flex items-center gap-8">
+            <a href="/" class="text-xl font-bold text-primary-container font-serif">UniBuzz</a>
+            <nav class="hidden md:flex gap-6 items-center font-serif">
+                {% if request.session.role == 'student' %}
+                    <a class="text-primary-container font-semibold border-b-2 border-amber-500 pb-1"
+                       href="{% url 'student_feed' %}">Feed</a>
+                    <a class="text-slate-500 hover:text-primary-container transition-colors"
+                       href="{% url 'student_chat' %}">Messages</a>
+                {% elif request.session.role == 'teacher' %}
+                    <a class="text-primary-container font-semibold border-b-2 border-amber-500 pb-1"
+                       href="{% url 'teacher_feed' %}">Feed</a>
+                    <a class="text-slate-500 hover:text-primary-container transition-colors"
+                       href="{% url 'teacher_chat' %}">Messages</a>
+                {% endif %}
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-2 md:gap-4">
+            <div class="relative hidden sm:block">
+                    <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+                <input type="text"
+                       class="pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm w-48 lg:w-64 focus:outline-none focus:ring-1 focus:ring-primary-container"
+                       placeholder="Search campus...">
+            </div>
+            <div class="flex items-center gap-1 md:gap-3">
+                {% if request.session.role %}
+                    <!-- <button class="p-2 hover:bg-slate-50 transition-colors text-slate-600 rounded-full relative">
+                        <span class="material-symbols-outlined">notifications</span> -->
+                    <!-- Placeholder for badge -->
+                    <!-- <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                    </button> -->
+                    <a href="
+
+                            {% if request.session.role == 'student' %}{% url 'student_profile' request.session.student_id %}{% elif request.session.role == 'teacher' %}{% url 'teacher_edit_profile' %}{% else %}{% url 'admin_edit_profile' %}{% endif %}"
+                       class="p-2 hover:bg-slate-50 transition-colors text-slate-600 rounded-full">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-7xl mx-auto pt-16 flex min-h-screen">
+    <!-- SideNavBar (Left) -->
+    {% if request.session.role %}
+        <aside
+                class="hidden lg:flex flex-col w-64 fixed h-[calc(100vh-64px)] border-r border-slate-200 bg-white py-6 tracking-tight overflow-y-auto">
+            <div class="flex flex-col gap-1 mb-8">
+                <div class="flex items-center gap-3 px-4 mb-6">
+                    <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-primary-container text-sm leading-tight">University Portal</h4>
+                        <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Academic Excellence
+                        </p>
+                    </div>
+                </div>
+
+                {% if request.session.role == 'student' %}
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'student_feed' %}active-nav-border{% endif %}"
+                       href="{% url 'student_feed' %}">
+                        <span class="material-symbols-outlined">home</span><span>Home Feed</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'student_explore' %}active-nav-border{% endif %}"
+                       href="{% url 'student_explore' %}">
+                        <span class="material-symbols-outlined">explore</span><span>Explore</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'student_notifications' %}active-nav-border{% endif %}"
+                       href="{% url 'student_notifications' %}">
+                        <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'student_chat' %}active-nav-border{% endif %}"
+                       href="{% url 'student_chat' %}">
+                        <span class="material-symbols-outlined">mail</span><span>Messages</span>
+                    </a>
+                    <!-- <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors
+                            {% if request.resolver_match.url_name == 'student_groups' %}
+                                active-nav-border{% endif %}" href="{% url 'student_groups' %}">
+                        <span class="material-symbols-outlined">groups</span><span>Groups</span>
+                    </a> -->
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'student_saved_posts' %}active-nav-border{% endif %}"
+                       href="{% url 'student_saved_posts' %}">
+                        <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors"
+                       href="{% url 'student_logout' %}">
+                        <span class="material-symbols-outlined">logout</span><span>Logout</span>
+                    </a>
+                {% elif request.session.role == 'teacher' %}
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'teacher_feed' %}active-nav-border{% endif %}"
+                       href="{% url 'teacher_feed' %}">
+                        <span class="material-symbols-outlined">home</span><span>Home Feed</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'teacher_explore' %}active-nav-border{% endif %}"
+                       href="{% url 'teacher_explore' %}">
+                        <span class="material-symbols-outlined">explore</span><span>Explore</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'teacher_notifications' %}active-nav-border{% endif %}"
+                       href="{% url 'teacher_notifications' %}">
+                        <span class="material-symbols-outlined">notifications</span><span>Notifications</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'teacher_chat' %}active-nav-border{% endif %}"
+                       href="{% url 'teacher_chat' %}">
+                        <span class="material-symbols-outlined">mail</span><span>Messages</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'teacher_saved_posts' %}active-nav-border{% endif %}"
+                       href="{% url 'teacher_saved_posts' %}">
+                        <span class="material-symbols-outlined">bookmark</span><span>Saved</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors"
+                       href="{% url 'teacher_logout' %}">
+                        <span class="material-symbols-outlined">logout</span><span>Logout</span>
+                    </a>
+                {% elif request.session.role == 'admin' %}
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'admin_dashboard' %}active-nav-border{% endif %}"
+                       href="{% url 'admin_dashboard' %}">
+                        <span class="material-symbols-outlined">dashboard</span><span>Dashboard</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'admin_students_list' %}active-nav-border{% endif %}"
+                       href="{% url 'admin_students_list' %}">
+                        <span class="material-symbols-outlined">school</span><span>Students</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'admin_teachers_list' %}active-nav-border{% endif %}"
+                       href="{% url 'admin_teachers_list' %}">
+                        <span class="material-symbols-outlined">person</span><span>Teachers</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors {% if request.resolver_match.url_name == 'admin_reports' %}active-nav-border{% endif %}"
+                       href="{% url 'admin_reports' %}">
+                        <span class="material-symbols-outlined">flag</span><span>Reports</span>
+                    </a>
+                    <a class="px-4 py-3 flex items-center gap-3 text-slate-600 hover:bg-slate-50 transition-colors"
+                       href="{% url 'admin_logout' %}">
+                        <span class="material-symbols-outlined">logout</span><span>Logout</span>
+                    </a>
+                {% endif %}
+            </div>
+            <!-- 
+            <div class="mt-auto px-4">
+                <button
+                    class="w-full py-3 bg-secondary-container text-on-secondary-container font-semibold rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity text-sm">
+                    <span class="material-symbols-outlined text-sm">edit</span>
+                    Create Post
+                </button>
+            </div> -->
+        </aside>
+    {% endif %}
+
+    {% csrf_token %}
+
+    <!-- Main Content Area -->
+    <main class="flex-1 {% if request.session.role %}lg:ml-64 lg:mr-80{% endif %} px-4 md:px-8 py-6 w-full">
+        {% if messages %}
+            <div class="fixed top-20 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 w-full max-w-md px-4">
+                {% for message in messages %}
+                    <div
+                            class="p-4 rounded-lg shadow-lg border flex justify-between items-center {% if message.tags == 'success' %}bg-green-50 border-green-200 text-green-800{% elif message.tags == 'error' %}bg-red-50 border-red-200 text-red-800{% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+                        <span class="text-sm font-medium">{{ message }}</span>
+                        <button onclick="this.parentElement.remove()"
+                                class="text-current opacity-50 hover:opacity-100"><span
+                                class="material-symbols-outlined text-sm">close</span></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Right Panel (Stats / Trending) -->
+    {% if request.session.role %}
+        <aside class="hidden xl:flex flex-col gap-6 w-80 fixed right-0 h-[calc(100vh-64px)] py-6 px-4 bg-background">
+            {% block right_panel %}
+                <section class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                    <div class="px-4 py-3 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <h2 class="font-serif text-lg text-primary-container font-semibold">People to Follow</h2>
+                    </div>
+                    <div class="flex flex-col">
+                        {% for user in suggested_users %}
+                            <div class="px-4 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors flex items-center justify-between group">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    {% if user.profile_pic %}
+                                        <img src="{{ user.profile_pic.url }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0">
+                                    {% else %}
+                                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold shrink-0">
+                                            {{ user.name|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="min-w-0">
+                                        <h4 class="text-sm font-bold text-slate-800 truncate group-hover:text-primary transition-colors">{{ user.name }}</h4>
+                                        <div class="flex items-center gap-1 mt-0.5">
+                                            {% if user.user_role == 'student' %}
+                                                <span class="text-[9px] bg-blue-50 text-blue-700 border border-blue-100 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider shrink-0">Student</span>
+                                            {% else %}
+                                                <span class="text-[9px] bg-amber-50 text-amber-700 border border-amber-100 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider shrink-0">Faculty</span>
+                                            {% endif %}
+                                            <span class="text-xs text-slate-500 truncate">@{{ user.display_id }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="ml-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-full transition-colors shrink-0 follow-btn" data-role="{{ user.user_role }}" data-id="{{ user.id }}" onclick="toggleSidebarFollow(this)">
+                                    Follow
+                                </button>
+                            </div>
+                        {% empty %}
+                            <div class="p-6 text-center">
+                                <span class="material-symbols-outlined text-slate-300 text-3xl mb-2">group</span>
+                                <p class="text-sm text-slate-500">You're following everyone we can suggest right now!</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endblock %}
+        </aside>
+    {% endif %}
+</div>
+
+<!-- Scripts -->
+<script>
+    // ─── CSRF Helper ───────────────────────────────────────────────
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Emoji map for reactions (keeping for backward compatibility if needed)
+    const reactionEmojis = {like: '❤️', celebrate: '🎉', insightful: '💡', funny: '😂'};
+
+    // Toggle Reaction Picker (Adapt to new UI if needed)
+    {#function toggleReactionPicker(postId) {#}
+    {#    console.log("Clicked:", postId);#}
+    {#    const picker = document.getElementById('reaction-picker-' + postId);#}
+    {#    if (!picker) return;#}
+    {#    document.querySelectorAll('.reaction-picker').forEach(p => {#}
+    {#        if (p !== picker) p.classList.add('hidden');#}
+    {#    });#}
+    {#    picker.classList.toggle('hidden');#}
+    {# #}
+
+    function toggleReactionPicker(postId) {
+        console.log("Clicked:", postId);
+
+        const button = document.getElementById('like-btn-' + postId);
+        const url = button.dataset.url;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response:", data);
+
+                // update count
+                document.getElementById('like-count-' + postId).textContent = data.count;
+            })
+            .catch(err => console.error(err));
+    }
+
+    async function submitReaction(postId, reactionType) {
+        const btn = document.getElementById('like-btn-' + postId);
+        const countSpan = document.getElementById('like-count-' + postId);
+        const iconSpan = document.getElementById('reaction-icon-' + postId);
+        const picker = document.getElementById('reaction-picker-' + postId);
+        const csrftoken = getCookie('csrftoken');
+        const url = btn.getAttribute('data-url');
+        if (picker) picker.classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('reaction_type', reactionType);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                body: formData
+            });
+            const data = await response.json();
+            if (data.liked !== undefined) {
+                countSpan.innerText = data.count;
+                if (data.liked) {
+                    iconSpan.innerText = 'thumb_up'; // Material icon name
+                    iconSpan.classList.add('fill-current', 'text-primary');
+                    btn.classList.add('text-primary');
+                } else {
+                    iconSpan.innerText = 'thumb_up';
+                    iconSpan.classList.remove('fill-current', 'text-primary');
+                    btn.classList.remove('text-primary');
+                }
+            }
+        } catch (error) {
+            console.error('Error submitting reaction:', error);
+        }
+    }
+
+    async function toggleSave(postId) {
+        const btn = document.getElementById('save-btn-' + postId);
+        const csrftoken = getCookie('csrftoken');
+        const url = btn.getAttribute('data-url');
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'X-CSRFToken': csrftoken}
+            });
+            const data = await response.json();
+            if (data.saved !== undefined) {
+                const icon = btn.querySelector('span.material-symbols-outlined');
+                if (data.saved) {
+                    btn.classList.add('text-amber-600');
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                } else {
+                    btn.classList.remove('text-amber-600');
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                }
+            }
+        } catch (error) {
+            console.error('Error toggling save:', error);
+        }
+    }
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(() => {
+        document.querySelectorAll('.fixed.top-20 .p-4').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => el.remove(), 500);
+        });
+    }, 5000);
+
+    function getCSRFToken() {
+        return document.cookie
+            .split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            ?.split('=')[1];
+    }
+    
+    function toggleSidebarFollow(btn) {
+        const role = btn.dataset.role;
+        const id = btn.dataset.id;
+        // Depending on logged-in role, hit the correct URL
+        // We know student_toggle_follow and teacher_toggle_follow endpoints exist
+        // or we just remove the card locally to simulate
+        
+        let url = '';
+        const userRole = document.body.dataset.role;
+        if (userRole === 'student') url = '/student/explore/follow/';
+        else if (userRole === 'teacher') url = '/teacher/explore/follow/';
+        else return; // Admins don't follow
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'role': role,
+                'id': id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.following) {
+                // Successfully followed, remove the card from suggestions
+                btn.closest('.group').remove();
+            }
+        })
+        .catch(err => console.error(err));
+    }
+</script>
+{% block scripts %}{% endblock %}
+</body>
+
+</html>

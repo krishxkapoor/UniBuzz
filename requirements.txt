@@ -1,0 +1,7 @@
+django
+pillow
+python-dotenv
+django-crispy-forms
+crispy-bootstrap5
+channels
+daphne

@@ -1,0 +1,295 @@
+{% load static %}
+<article
+    class="bg-white border border-slate-200 rounded-xl overflow-hidden transition-all hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] mb-6"
+    id="post-{{ post.id }}">
+    <div class="p-4 md:p-6">
+        <!-- Post Header -->
+        <div class="flex justify-between items-start mb-4">
+            <div class="flex gap-3">
+                <div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden flex-shrink-0">
+                    {% if post.author_pic_url %}
+                    <img src="{{ post.author_pic_url }}" class="w-full h-full object-cover"
+                        alt="{{ post.author_name }}">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-500">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div>
+                    <h3 class="font-serif text-primary-container font-semibold leading-none mb-1">{{ post.author_name }}
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        {% if post.author_role == 'admin' %}
+                        <span
+                            class="px-2 py-0.5 bg-error text-white text-[10px] font-bold rounded uppercase tracking-widest">Admin</span>
+                        {% elif post.author_role == 'teacher' %}
+                        <span
+                            class="px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded uppercase tracking-widest">Faculty</span>
+                        {% else %}
+                        <span
+                            class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase tracking-widest">Student</span>
+                        {% endif %}
+                        <span class="text-[10px] text-slate-400 font-semibold">• {{ post.created_at|timesince }}
+                            ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Context Menu / Actions -->
+            <div class="flex gap-2">
+                {% if post.is_pin_active %}
+                <span
+                    class="flex items-center gap-1 text-amber-600 text-[10px] font-bold uppercase tracking-wider bg-amber-50 px-2 py-1 rounded">
+                    <span class="material-symbols-outlined text-xs"
+                        style="font-variation-settings: 'FILL' 1;">keep</span> Pinned
+                </span>
+                {% endif %}
+
+                <div class="flex">
+                    {% if request.session.role == 'admin' %}
+                    <a href="{% url 'admin_post_edit' post.id %}"
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"><span
+                            class="material-symbols-outlined text-sm">edit</span></a>
+                    <a href="{% url 'admin_post_delete' post.id %}"
+                        class="p-2 text-slate-400 hover:text-error transition-colors"><span
+                            class="material-symbols-outlined text-sm">delete</span></a>
+                    {% elif request.session.role == 'teacher' and post.author_role == 'student' or request.session.role == 'teacher' and post.author_id == request.session.teacher_id %}
+                    {% if post.author_role == 'teacher' and post.author_id == request.session.teacher_id %}
+                    <a href="{% url 'teacher_post_edit' post.id %}"
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"><span
+                            class="material-symbols-outlined text-sm">edit</span></a>
+                    {% endif %}
+                    <a href="{% url 'teacher_post_delete' post.id %}"
+                        class="p-2 text-slate-400 hover:text-error transition-colors"><span
+                            class="material-symbols-outlined text-sm">delete</span></a>
+                    {% elif request.session.role == 'student' and post.author_role == 'student' and post.author_id == request.session.student_id %}
+                    <a href="{% url 'student_post_edit' post.id %}"
+                        class="p-2 text-slate-400 hover:text-primary transition-colors"><span
+                            class="material-symbols-outlined text-sm">edit</span></a>
+                    <a href="{% url 'student_post_delete' post.id %}"
+                        class="p-2 text-slate-400 hover:text-error transition-colors"><span
+                            class="material-symbols-outlined text-sm">delete</span></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Content -->
+        {% if request.session.role == 'student' %}
+        <a href="{% url 'student_post_detail' post.id %}" class="block group">
+            {% elif request.session.role == 'teacher' %}
+            <a href="{% url 'teacher_post_detail' post.id %}" class="block group">
+                {% elif request.session.role == 'admin' %}
+                <a href="{% url 'admin_post_detail' post.id %}" class="block group">
+                    {% endif %}
+                    <p class="text-slate-700 leading-relaxed mb-4 whitespace-pre-wrap">{{ post.content }}</p>
+
+                    {% if post.image %}
+                    <div class="rounded-xl overflow-hidden mb-4 border border-slate-100 bg-slate-50 max-h-96 flex items-center justify-center">
+                        <img src="{{ post.image.url }}"
+                            class="w-full max-h-96 object-contain group-hover:scale-[1.01] transition-transform duration-300"
+                            alt="Post content"
+                            onerror="this.parentElement.style.display='none'">
+                    </div>
+                    {% endif %}
+                </a>
+
+                <!-- Action Bar -->
+                <div class="flex items-center justify-between pt-4 border-t border-slate-50">
+                    <div class="flex gap-4 md:gap-6">
+                        <!-- Like/Reaction -->
+                        <div class="relative" id="reaction-wrapper-{{ post.id }}">
+                            <button
+                                class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors {% if post.is_liked %}text-primary{% endif %}"
+                                id="like-btn-{{ post.id }}"
+                                data-url="{% if request.session.role == 'student' %}{% url 'student_like' post.id %}{% elif request.session.role == 'teacher' %}{% url 'teacher_like' post.id %}{% else %}{% url 'admin_like' post.id %}{% endif %}"
+                                onclick="toggleReactionPicker({{ post.id }})">
+                                <span class="material-symbols-outlined text-lg" id="reaction-icon-{{ post.id }}" {% if post.is_liked %}style="font-variation-settings: 'FILL' 1" {% endif %}>thumb_up</span>
+                                <span class="text-xs font-bold font-sans" id="like-count-{{ post.id }}">{{ post.like_count }}</span>
+                            </button>
+
+                            <!-- Reaction Picker -->
+                            <div
+                                class="reaction-picker hidden absolute bottom-full left-0 mb-2 bg-white border border-slate-200 rounded-full shadow-xl p-1 flex gap-1 z-10 scale-90 origin-bottom-left">
+                                <button
+                                    class="p-1.5 hover:bg-slate-50 rounded-full transition-transform hover:scale-125"
+                                    onclick="submitReaction({{ post.id }}, 'like')">❤️</button>
+                                <button
+                                    class="p-1.5 hover:bg-slate-50 rounded-full transition-transform hover:scale-125"
+                                    onclick="submitReaction({{ post.id }}, 'celebrate')">🎉</button>
+                                <button
+                                    class="p-1.5 hover:bg-slate-50 rounded-full transition-transform hover:scale-125"
+                                    onclick="submitReaction({{ post.id }}, 'insightful')">💡</button>
+                                <button
+                                    class="p-1.5 hover:bg-slate-50 rounded-full transition-transform hover:scale-125"
+                                    onclick="submitReaction({{ post.id }}, 'funny')">😂</button>
+                            </div>
+                        </div>
+
+                        <!-- Comment -->
+                        <button
+                            class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors"
+                            onclick="document.getElementById('comments-{{ post.id }}').classList.toggle('hidden')">
+                            <span class="material-symbols-outlined text-lg">chat_bubble</span>
+                            <span class="text-xs font-bold font-sans">{{ post.comment_count }}</span>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-3">
+                        {% if request.session.role == 'student' or request.session.role == 'teacher' %}
+                        <!-- Bookmark -->
+                        <button
+                            class="text-slate-500 hover:text-amber-600 transition-colors {% if post.is_saved %}text-amber-600{% endif %}"
+                            id="save-btn-{{ post.id }}"
+                            data-url="{% if request.session.role == 'student' %}{% url 'student_save_post' post.id %}{% else %}{% url 'teacher_save_post' post.id %}{% endif %}"
+                            onclick="toggleSave({{ post.id }})">
+                            <span class="material-symbols-outlined text-lg"
+                                    {% if post.is_saved %}
+                                  style="font-variation-settings: 'FILL' 1" {% endif %}> bookmark</span>
+                        </button>
+
+                        <!-- Report -->
+                        <button class="text-slate-500 hover:text-error transition-colors"
+                            onclick="openReportModal({{ post.id }})">
+                            <span class="material-symbols-outlined text-lg">flag</span>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="hidden mt-4 pt-4 border-t border-slate-50" id="comments-{{ post.id }}">
+                    <div class="space-y-4 mb-4">
+                        {% for comment in post.comments.all %}
+                        <div class="flex gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-xs text-slate-400">person</span>
+                            </div>
+                            <div class="flex-1 bg-slate-50 rounded-xl p-3 relative group/comment">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold text-primary-container">{{ comment.author_role|title }}</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[10px] text-slate-400">{{ comment.created_at|timesince }}
+                                            ago</span>
+                                        {% if request.session.role == 'admin' %}
+                                        <a href="{% url 'admin_comment_delete' comment.id %}"
+                                            class="text-error opacity-0 group-hover/comment:opacity-100 transition-opacity"><span
+                                                class="material-symbols-outlined text-xs">delete</span></a>
+                                        {% elif request.session.role == 'teacher' and comment.author_role == 'student' or request.session.role == 'teacher' and comment.author_role == 'teacher' and comment.author_id == request.session.teacher_id %}
+                                        <a href="{% url 'teacher_comment_delete' comment.id %}"
+                                            class="text-error opacity-0 group-hover/comment:opacity-100 transition-opacity"><span
+                                                class="material-symbols-outlined text-xs">delete</span></a>
+                                        {% elif request.session.role == 'student' and comment.author_role == 'student' and comment.author_id == request.session.student_id %}
+                                        <a href="{% url 'student_comment_delete' comment.id %}"
+                                            class="text-error opacity-0 group-hover/comment:opacity-100 transition-opacity"><span
+                                                class="material-symbols-outlined text-xs">delete</span></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <p class="text-sm text-slate-600 whitespace-pre-wrap">{{comment.content}}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-xs text-slate-400 text-center py-2">No comments yet. Be the first to join the
+                            discussion!</p>
+                        {% endfor %}
+                    </div>
+
+                    <form
+                        action="{% if request.session.role == 'student' %}{% url 'student_comment' post.id %}{% elif request.session.role == 'teacher' %}{% url 'teacher_comment' post.id %}{% else %}{% url 'admin_comment' post.id %}{% endif %}"
+                        method="post" class="flex gap-2">
+                        {% csrf_token %}
+                        <input type="text" name="content"
+                            class="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container"
+                            placeholder="Post your reply..." required>
+                        <button type="submit"
+                            class="bg-primary-container text-white px-4 py-2 rounded-full text-xs font-bold hover:opacity-90 transition-opacity">Reply</button>
+                    </form>
+                </div>
+    </div>
+</article>
+
+<!-- Report Modal Overlay -->
+<div id="reportModal-{{ post.id }}"
+    class="fixed inset-0 bg-primary/40 backdrop-blur-sm z-[70] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <h3 class="font-serif font-bold text-primary-container flex items-center gap-2">
+                <span class="material-symbols-outlined text-error">flag</span> Report Content
+            </h3>
+            <button onclick="document.getElementById('reportModal-{{ post.id }}').classList.add('hidden')"
+                class="text-slate-400 hover:text-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6">
+            <form id="report-form-{{ post.id }}" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Reason for
+                        Reporting</label>
+                    <select name="reason"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container">
+                        <option value="spam">Spam</option>
+                        <option value="harassment">Harassment</option>
+                        <option value="misinformation">Misinformation</option>
+                        <option value="inappropriate">Inappropriate Content</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Additional
+                        Context</label>
+                    <textarea name="description"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container min-h-[100px]"
+                        placeholder="Help our moderators understand the issue..."></textarea>
+                </div>
+                <button type="button"
+                    class="w-full bg-error text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-error/20"
+                    onclick="submitReport({{ post.id }})">Submit Report</button>
+            </form>
+            <div id="report-feedback-{{ post.id }}" class="mt-4 text-center text-sm font-medium"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Helper to open report modal since it's now a custom div
+    function openReportModal(postId) {
+        document.getElementById('reportModal-' + postId).classList.remove('hidden');
+        document.getElementById('reportModal-' + postId).classList.add('flex');
+    }
+
+    async function submitReport(postId) {
+        const form = document.getElementById('report-form-' + postId);
+        const feedback = document.getElementById('report-feedback-' + postId);
+        const csrftoken = getCookie('csrftoken');
+        const formData = new FormData(form);
+
+        // Detect URL from role
+        const role = document.body.dataset.role;
+        let url = '/' + role + '/post/' + postId + '/report/';
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrftoken },
+                body: formData
+            });
+            const data = await response.json();
+            feedback.innerText = data.message || 'Done.';
+            feedback.className = data.success ? 'mt-2 text-center text-green-600' : 'mt-2 text-center text-amber-600';
+            if (data.success) {
+                setTimeout(() => {
+                    document.getElementById('reportModal-' + postId).classList.add('hidden');
+                    document.getElementById('reportModal-' + postId).classList.remove('flex');
+                }, 1500);
+            }
+        } catch (error) {
+            feedback.innerText = 'Error submitting report.';
+            feedback.className = 'mt-2 text-center text-red-600';
+        }
+    }
+</script>

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-white border-b border-slate-200 sticky top-0 z-10 px-6 py-4">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold font-serif text-primary-container">Explore Community</h2>
+    </div>
+</div>
+
+<div class="p-6">
+    <form method="get" class="mb-8">
+        <div class="relative max-w-2xl mx-auto">
+            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
+                <span class="material-symbols-outlined">search</span>
+            </span>
+            <input type="text" name="q" value="{{ query }}" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-container focus:bg-white transition-all text-slate-700" placeholder="Search students and faculty by name or ID...">
+            <button type="submit" class="absolute inset-y-0 right-2 my-1.5 px-4 bg-primary-container text-white text-sm font-bold rounded-lg hover:bg-opacity-90 transition">Search</button>
+        </div>
+    </form>
+
+    <div class="max-w-4xl mx-auto">
+        {% if not query %}
+        <h3 class="text-lg font-bold text-slate-700 mb-4 px-2">Suggested People</h3>
+        {% else %}
+        <h3 class="text-lg font-bold text-slate-700 mb-4 px-2">Search Results</h3>
+        {% endif %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for person in people_results %}
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow flex flex-col">
+                <div class="flex items-center gap-4 mb-4">
+                    {% if person.profile_pic %}
+                    <img src="{{ person.profile_pic.url }}" class="w-12 h-12 rounded-full object-cover border-2 border-slate-200 shrink-0">
+                    {% else %}
+                    <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-lg font-bold shrink-0">
+                        {{ person.name|first|upper }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="min-w-0">
+                        <h4 class="font-bold text-primary-container truncate">{{ person.name }}</h4>
+                        <div class="flex items-center gap-2 mt-1">
+                            {% if person.user_role == 'student' %}
+                            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-100 rounded text-[10px] font-bold uppercase tracking-wider">Student</span>
+                            <span class="text-xs font-mono text-slate-500 truncate">{{ person.roll_number }}</span>
+                            {% else %}
+                            <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 rounded text-[10px] font-bold uppercase tracking-wider">Faculty</span>
+                            <span class="text-xs font-mono text-slate-500 truncate">{{ person.employee_id }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-auto pt-4 border-t border-slate-100">
+                    <button class="follow-btn w-full py-2 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 {% if person.is_following %}bg-slate-100 text-slate-700 hover:bg-slate-200{% else %}bg-primary-container text-white hover:bg-opacity-90{% endif %}" data-role="{{ person.user_role }}" data-id="{{ person.id }}">
+                        {% if person.is_following %}
+                        <span class="material-symbols-outlined text-sm">person_remove</span> Unfollow
+                        {% else %}
+                        <span class="material-symbols-outlined text-sm">person_add</span> Follow
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full py-12 text-center bg-slate-50 rounded-2xl border border-slate-200 border-dashed">
+                <span class="material-symbols-outlined text-4xl text-slate-400 mb-3">search_off</span>
+                <h3 class="text-lg font-bold text-slate-700">No people found</h3>
+                <p class="text-slate-500">Try adjusting your search terms.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.follow-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const role = this.dataset.role;
+            const id = this.dataset.id;
+            const button = this;
+            
+            fetch("{% url 'teacher_toggle_follow' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'role': role,
+                    'id': id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.following) {
+                    button.classList.remove('bg-primary-container', 'text-white', 'hover:bg-opacity-90');
+                    button.classList.add('bg-slate-100', 'text-slate-700', 'hover:bg-slate-200');
+                    button.innerHTML = '<span class="material-symbols-outlined text-sm">person_remove</span> Unfollow';
+                } else {
+                    button.classList.remove('bg-slate-100', 'text-slate-700', 'hover:bg-slate-200');
+                    button.classList.add('bg-primary-container', 'text-white', 'hover:bg-opacity-90');
+                    button.innerHTML = '<span class="material-symbols-outlined text-sm">person_add</span> Follow';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
+</script>
+{% endblock %}

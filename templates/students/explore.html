@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40">
+    <form method="get" class="relative group">
+        <span
+            class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg group-focus-within:text-primary transition-colors">search</span>
+        <input type="text" name="q" value="{{ query }}"
+            class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-container/10 focus:border-primary-container transition-all"
+            placeholder="Discover research, colleagues, or insights...">
+        <button type="submit" class="hidden">Search</button>
+    </form>
+</div>
+
+{% if not query %}
+<div class="p-6">
+    <h3 class="font-serif text-lg font-bold text-primary-container mb-6 flex items-center gap-2">
+        <!-- <span class="material-symbols-outlined text-amber-500">sparkles</span> -->
+        Academic Recommendations
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for student in suggested_students %}
+        <div
+            class="bg-white border border-slate-200 p-4 rounded-xl flex items-center justify-between hover:shadow-md transition-shadow group">
+            <a href="{% url 'student_profile' student.id %}" class="flex items-center gap-3 min-w-0">
+                {% if student.profile_pic %}
+                <img src="{{ student.profile_pic.url }}"
+                    class="w-12 h-12 rounded-full object-cover border border-slate-100 group-hover:border-primary/20 transition-colors">
+                {% else %}
+                <div
+                    class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-100">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                {% endif %}
+                <div class="min-w-0">
+                    <h4
+                        class="font-serif font-bold text-primary-container truncate group-hover:text-primary transition-colors">
+                        {{ student.name }}</h4>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight truncate">
+                        {{ student.roll_number }} • {{ student.followers_count }} Followers</p>
+                </div>
+            </a>
+            <form action="{% url 'student_follow' student.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit"
+                    class="px-4 py-1.5 bg-primary-container text-white text-[10px] font-bold rounded-full uppercase tracking-wider hover:opacity-90 transition-opacity">Follow</button>
+            </form>
+        </div>
+        {% empty %}
+        <div class="col-span-full py-10 text-center text-slate-400 text-sm italic">Expanding our network... Check back
+            later for new connections.</div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<!-- Search Results -->
+<div class="flex border-b border-slate-200 bg-white sticky top-[132px] z-30 px-6">
+    <button class="px-8 py-4 text-sm font-bold text-primary-container border-b-2 border-primary-container -mb-[1px]"
+        onclick="toggleTab('people', this)">Researchers</button>
+    <button class="px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors"
+        onclick="toggleTab('posts', this)">Publications</button>
+</div>
+
+<div class="p-6">
+    <div id="people-tab" class="tab-pane space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for p in people_results %}
+            <div
+                class="bg-white border border-slate-200 p-4 rounded-xl flex items-center justify-between hover:shadow-md transition-shadow group">
+                <a href="{% url 'student_profile' p.id %}" class="flex items-center gap-3 min-w-0">
+                    {% if p.profile_pic %}
+                    <img src="{{ p.profile_pic.url }}"
+                        class="w-12 h-12 rounded-full object-cover border border-slate-100 group-hover:border-primary/20 transition-colors">
+                    {% else %}
+                    <div
+                        class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-100">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                    {% endif %}
+                    <div class="min-w-0">
+                        <h4
+                            class="font-serif font-bold text-primary-container truncate group-hover:text-primary transition-colors">
+                            {{ p.name }}</h4>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight truncate">{{
+                            p.roll_number }} • {{ p.followers_count }} Followers</p>
+                    </div>
+                </a>
+                {% if p.is_following %}
+                <form action="{% url 'student_unfollow' p.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="px-4 py-1.5 border border-slate-200 text-slate-500 text-[10px] font-bold rounded-full uppercase tracking-wider hover:bg-slate-50 transition-colors">Unfollow</button>
+                </form>
+                {% else %}
+                <form action="{% url 'student_follow' p.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="px-4 py-1.5 bg-primary-container text-white text-[10px] font-bold rounded-full uppercase tracking-wider hover:opacity-90 transition-opacity">Follow</button>
+                </form>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="col-span-full py-20 text-center">
+                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-slate-300 text-3xl">person_off</span>
+                </div>
+                <h5 class="font-serif text-lg text-primary-container font-bold mb-1">No researchers found</h5>
+                <p class="text-sm text-slate-500">Try adjusting your search terms.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="posts-tab" class="tab-pane hidden space-y-6">
+        {% for post in post_results %}
+        {% include 'includes/post_card.html' with post=post %}
+        {% empty %}
+        <div class="py-20 text-center">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-slate-300 text-3xl">search_off</span>
+            </div>
+            <h5 class="font-serif text-lg text-primary-container font-bold mb-1">No publications found</h5>
+            <p class="text-sm text-slate-500">We couldn't find any posts matching your query.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function toggleTab(tabId, btn) {
+        document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+        document.getElementById(tabId + '-tab').classList.remove('hidden');
+
+        const buttons = btn.parentElement.querySelectorAll('button');
+        buttons.forEach(b => {
+            b.classList.remove('text-primary-container', 'border-b-2', 'border-primary-container', '-mb-[1px]');
+            b.classList.add('text-slate-400');
+        });
+
+        btn.classList.add('text-primary-container', 'border-b-2', 'border-primary-container', '-mb-[1px]');
+        btn.classList.remove('text-slate-400');
+    }
+</script>
+{% endif %}
+{% endblock %}

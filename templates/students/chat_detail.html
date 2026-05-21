@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex flex-col h-[calc(100vh-100px)] bg-slate-50 rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
+    <!-- Chat Header -->
+    <div class="px-6 py-4 bg-white border-b border-slate-100 flex justify-between items-center z-10">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'student_chat' %}" class="lg:hidden text-slate-400 hover:text-primary"><span class="material-symbols-outlined">arrow_back</span></a>
+            <div class="relative">
+                {% if other_student.profile_pic %}
+                    <img src="{{ other_student.profile_pic.url }}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                {% else %}
+                    <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                {% endif %}
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+                <h3 class="font-serif font-bold text-primary-container leading-none mb-1">{{ other_student.name }}</h3>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Online</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="p-2 text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">videocam</span></button>
+            <button class="p-2 text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">call</span></button>
+            <button class="p-2 text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+        </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div id="messages-container" class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar flex flex-col">
+        {% for msg in messages_list %}
+            {% if msg.sender_id == request.session.student_id %}
+                <!-- Sent Message -->
+                <div class="flex gap-3 max-w-[85%] self-end flex-row-reverse">
+                    <div class="bg-primary-container text-white p-4 rounded-2xl rounded-tr-none shadow-sm">
+                        <p class="text-sm leading-relaxed">{{ msg.content }}</p>
+                        <span class="text-[10px] text-blue-200/60 mt-2 block text-right font-bold">{{ msg.timestamp|time:"H:i" }}</span>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Received Message -->
+                <div class="flex gap-3 max-w-[85%]">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center border border-slate-200">
+                        <span class="material-symbols-outlined text-xs text-slate-400">person</span>
+                    </div>
+                    <div class="bg-white border border-slate-200 p-4 rounded-2xl rounded-tl-none shadow-sm">
+                        <p class="text-sm text-slate-700 leading-relaxed">{{ msg.content }}</p>
+                        <span class="text-[10px] text-slate-400 mt-2 block text-right font-bold">{{ msg.timestamp|time:"H:i" }}</span>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <div class="my-auto text-center py-10">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100 shadow-sm">
+                    <span class="material-symbols-outlined text-slate-300 text-3xl">chat</span>
+                </div>
+                <h4 class="font-serif text-lg text-primary-container font-bold mb-1">Start a conversation</h4>
+                <p class="text-sm text-slate-500">Say hi to {{ other_student.name }}!</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Input Area -->
+    <div class="p-6 bg-white border-t border-slate-100">
+        <form id="chat-form" class="bg-slate-50 border border-slate-200 rounded-2xl p-2 flex items-end gap-2 focus-within:border-primary-container focus-within:bg-white transition-all">
+            <button type="button" class="p-2 text-slate-400 hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">add_circle</span>
+            </button>
+            <textarea id="chat-input" class="flex-1 bg-transparent border-none focus:ring-0 resize-none py-2 text-sm font-sans min-h-[40px] max-h-[120px]" placeholder="Type an academic query or message..." rows="1" required autocomplete="off"></textarea>
+            <div class="flex gap-1 pb-1 pr-1">
+                <button type="button" class="p-2 text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">sentiment_satisfied</span>
+                </button>
+                <button type="submit" class="bg-primary-container text-white p-2.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const container = document.getElementById('messages-container');
+    container.scrollTop = container.scrollHeight;
+
+    const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/chat/{{ other_student.id }}/'
+    );
+
+    function showChatError(msg) {
+        // Remove any existing error toast
+        const existing = document.getElementById('profanity-toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.id = 'profanity-toast';
+        toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(239,68,68,0.4);animation:fadeInUp 0.3s ease;max-width:90%;text-align:center;';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.animation = 'fadeOutDown 0.3s ease forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        // Handle profanity error
+        if (data.type === 'profanity_error') {
+            showChatError(data.message);
+            return;
+        }
+
+        const isSentByMe = data.sender_id === {{ request.session.student_id|default:0 }};
+        
+        let bubbleHtml = '';
+        if (isSentByMe) {
+            bubbleHtml = `
+            <div class="flex gap-3 max-w-[85%] self-end flex-row-reverse mb-6">
+                <div class="bg-primary-container text-white p-4 rounded-2xl rounded-tr-none shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <p class="text-sm leading-relaxed">${data.message}</p>
+                    <span class="text-[10px] text-blue-200/60 mt-2 block text-right font-bold">${data.timestamp}</span>
+                </div>
+            </div>`;
+        } else {
+            bubbleHtml = `
+            <div class="flex gap-3 max-w-[85%] mb-6">
+                <div class="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center border border-slate-200">
+                    <span class="material-symbols-outlined text-xs text-slate-400">person</span>
+                </div>
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl rounded-tl-none shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                    <p class="text-sm text-slate-700 leading-relaxed">${data.message}</p>
+                    <span class="text-[10px] text-slate-400 mt-2 block text-right font-bold">${data.timestamp}</span>
+                </div>
+            </div>`;
+        }
+
+        const emptyMsg = container.querySelector('.my-auto');
+        if(emptyMsg) emptyMsg.remove();
+
+        container.insertAdjacentHTML('beforeend', bubbleHtml);
+        container.scrollTop = container.scrollHeight;
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.getElementById('chat-form').onsubmit = function(e) {
+        e.preventDefault();
+        const messageInputDom = document.getElementById('chat-input');
+        const message = messageInputDom.value.trim();
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+            messageInputDom.style.height = 'auto';
+        }
+    };
+
+    // Auto-expand textarea
+    const textarea = document.getElementById('chat-input');
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
+</script>
+
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes fadeOutDown {
+        from { opacity: 1; transform: translateX(-50%) translateY(0); }
+        to { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    }
+</style>
+{% endblock %}
+

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Sticky Header -->
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40 flex items-center gap-4">
+    <a href="javascript:history.back()" class="text-slate-400 hover:text-primary-container transition-colors">
+        <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <div>
+        <h2 class="font-serif text-xl font-bold text-primary-container leading-none">Edit Profile</h2>
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Personal Information</span>
+    </div>
+</div>
+
+<div class="max-w-2xl mx-auto py-8 px-4">
+    <form method="post" enctype="multipart/form-data" id="editProfileForm">
+        {% csrf_token %}
+
+        <!-- Profile Picture Section -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+            <!-- Decorative Banner -->
+            <div class="h-32 bg-gradient-to-br from-primary-container via-[#003366] to-[#1a4a7a] relative">
+                <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
+                <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white/20 to-transparent"></div>
+            </div>
+
+            <div class="px-6 pb-6 relative">
+                <!-- Avatar Upload -->
+                <div class="absolute -top-14 left-6">
+                    <label for="profilePicInput" class="cursor-pointer group block relative" id="avatarLabel">
+                        {% if student.profile_pic %}
+                            <img src="{{ student.profile_pic.url }}" id="avatarPreview"
+                                 class="w-28 h-28 rounded-2xl object-cover border-4 border-white shadow-xl bg-white transition-transform group-hover:scale-105">
+                        {% else %}
+                            <div id="avatarPreview"
+                                 class="w-28 h-28 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-300 border-4 border-white shadow-xl transition-transform group-hover:scale-105">
+                                <span class="material-symbols-outlined text-4xl">person</span>
+                            </div>
+                        {% endif %}
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 rounded-2xl bg-primary-container/0 group-hover:bg-primary-container/50 transition-all duration-300 flex items-center justify-center border-4 border-transparent">
+                            <span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-2xl">
+                                photo_camera
+                            </span>
+                        </div>
+                    </label>
+                    <input type="file" name="profile_pic" id="profilePicInput" accept="image/*" class="hidden"
+                           onchange="previewAvatar(this)">
+                </div>
+
+                <div class="pt-16 pl-1">
+                    <p class="text-xs text-slate-400 font-medium">
+                        <span class="material-symbols-outlined text-xs align-middle mr-0.5">info</span>
+                        Click the photo to upload a new profile picture
+                    </p>
+                    {% if student.profile_pic %}
+                        <p class="text-[10px] text-slate-300 mt-1">Current: {{ student.profile_pic.name|truncatechars:40 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Fields Card -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="font-serif text-lg text-primary-container font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">badge</span>
+                    Profile Details
+                </h3>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Name Field -->
+                <div class="group">
+                    <label for="nameInput" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        Full Name <span class="text-red-400">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-lg group-focus-within:text-primary-container transition-colors">
+                            person
+                        </span>
+                        <input type="text"
+                               class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-on-surface placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container/30 focus:border-primary-container focus:bg-white transition-all duration-200"
+                               id="nameInput"
+                               name="name"
+                               value="{{ student.name }}"
+                               placeholder="Enter your full name"
+                               required>
+                    </div>
+                </div>
+
+                <!-- Roll Number (Read-only) -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        Roll Number
+                    </label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-lg">
+                            tag
+                        </span>
+                        <input type="text"
+                               class="w-full pl-10 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-400 cursor-not-allowed"
+                               value="{{ student.roll_number }}"
+                               disabled>
+                    </div>
+                    <p class="text-[10px] text-slate-300 mt-1 ml-1">Roll number cannot be changed</p>
+                </div>
+
+                <!-- Email (Read-only) -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        Email Address
+                    </label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-lg">
+                            mail
+                        </span>
+                        <input type="email"
+                               class="w-full pl-10 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-400 cursor-not-allowed"
+                               value="{{ student.email }}"
+                               disabled>
+                    </div>
+                    <p class="text-[10px] text-slate-300 mt-1 ml-1">Email cannot be changed</p>
+                </div>
+
+                <!-- Bio Field -->
+                <div class="group">
+                    <label for="bioInput" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                        Bio
+                    </label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-3 text-slate-300 text-lg group-focus-within:text-primary-container transition-colors">
+                            edit_note
+                        </span>
+                        <textarea
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-on-surface placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-container/30 focus:border-primary-container focus:bg-white transition-all duration-200 resize-none"
+                            id="bioInput"
+                            name="bio"
+                            placeholder="Tell us about yourself, your interests, and your academic goals..."
+                            rows="4"
+                            maxlength="280"
+                            oninput="updateCharCount(this)">{{ student.bio }}</textarea>
+                    </div>
+                    <div class="flex justify-between items-center mt-1 px-1">
+                        <p class="text-[10px] text-slate-300">Share a little about yourself</p>
+                        <span id="charCount" class="text-[10px] text-slate-300 font-mono">
+                            <span id="currentChars">{{ student.bio|length }}</span>/280
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mb-6">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="font-serif text-lg text-primary-container font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">shield</span>
+                    Security
+                </h3>
+            </div>
+            <div class="p-6">
+                <a href="{% url 'student_change_password' %}"
+                   class="flex items-center justify-between px-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-600 hover:bg-slate-50 hover:border-primary-container/30 transition-all duration-200 group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-amber-600 text-lg">lock</span>
+                        </span>
+                        <div>
+                            <span class="font-semibold text-primary-container">Change Password</span>
+                            <p class="text-[10px] text-slate-400 mt-0.5">Update your account password</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-300 group-hover:text-primary-container group-hover:translate-x-1 transition-all">
+                        chevron_right
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-between gap-4">
+            <a href="javascript:history.back()"
+               class="px-6 py-3 border border-slate-200 text-slate-500 font-semibold rounded-xl text-sm hover:bg-slate-50 transition-all duration-200">
+                Cancel
+            </a>
+            <button type="submit"
+                    class="px-8 py-3 bg-primary-container text-white font-bold rounded-xl text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-primary-container/20 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">check</span>
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function previewAvatar(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('avatarPreview');
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    // Replace the div with an img
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.id = 'avatarPreview';
+                    img.className = 'w-28 h-28 rounded-2xl object-cover border-4 border-white shadow-xl bg-white transition-transform group-hover:scale-105';
+                    preview.replaceWith(img);
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function updateCharCount(textarea) {
+        const currentChars = document.getElementById('currentChars');
+        const charCount = document.getElementById('charCount');
+        const len = textarea.value.length;
+        currentChars.textContent = len;
+
+        if (len > 260) {
+            charCount.classList.add('text-red-400');
+            charCount.classList.remove('text-slate-300');
+        } else {
+            charCount.classList.remove('text-red-400');
+            charCount.classList.add('text-slate-300');
+        }
+    }
+</script>
+{% endblock %}

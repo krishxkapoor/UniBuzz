@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-3 border-bottom border-secondary border-opacity-50 sticky-top bg-black" style="z-index: 1020; opacity: 0.95;">
+    <h4 class="text-white mb-0 fw-bold"><i class="bi bi-bookmark-fill text-warning me-2"></i>Saved Posts</h4>
+</div>
+
+<div class="py-2">
+    {% if posts %}
+        {% for post in posts %}
+            {% include 'includes/post_card.html' with post=post %}
+        {% endfor %}
+    {% else %}
+        <div class="text-center py-5 text-secondary">
+            <i class="bi bi-bookmark display-1 d-block mb-3 opacity-25"></i>
+            <p class="fs-5">No saved posts yet.</p>
+            <p class="small">Tap the bookmark icon on any post to save it here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

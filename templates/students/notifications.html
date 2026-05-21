@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-white border-b border-slate-200 sticky top-0 z-10 px-6 py-4">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold font-serif text-primary-container">Notifications</h2>
+    </div>
+</div>
+
+<div class="p-6 max-w-3xl mx-auto">
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+        {% for notif in notifications %}
+        <div class="p-4 border-b border-slate-100 flex gap-4 hover:bg-slate-50 transition-colors {% if not notif.is_read %}bg-blue-50/30{% endif %}">
+            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0">
+                {% if notif.notif_type == 'like' %}
+                <span class="material-symbols-outlined text-red-500" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                {% elif notif.notif_type == 'comment' %}
+                <span class="material-symbols-outlined text-blue-500" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+                {% elif notif.notif_type == 'follow' %}
+                <span class="material-symbols-outlined text-green-500" style="font-variation-settings: 'FILL' 1;">person_add</span>
+                {% elif notif.notif_type == 'report' %}
+                <span class="material-symbols-outlined text-amber-500" style="font-variation-settings: 'FILL' 1;">warning</span>
+                {% else %}
+                <span class="material-symbols-outlined text-primary-container">notifications</span>
+                {% endif %}
+            </div>
+            
+            <div class="flex-1 min-w-0">
+                <p class="text-slate-700 text-sm">
+                    <span class="font-bold text-primary-container">
+                        {% if notif.actor_role == 'student' %}
+                            Student
+                        {% elif notif.actor_role == 'teacher' %}
+                            Teacher
+                        {% else %}
+                            Someone
+                        {% endif %}
+                    </span> 
+                    {{ notif.message }}
+                </p>
+                
+                <span class="text-xs text-slate-500 mt-1 block">{{ notif.created_at|timesince }} ago</span>
+                
+                {% if notif.post %}
+                <div class="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <a href="{% url 'student_post_detail' notif.post.id %}" class="text-sm text-slate-600 line-clamp-2 hover:text-primary-container transition">
+                        {{ notif.post.content|truncatechars:100 }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="py-12 text-center">
+            <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 block">notifications_off</span>
+            <h3 class="text-lg font-bold text-slate-700">No notifications yet</h3>
+            <p class="text-slate-500">When you receive likes, comments, or followers, they'll appear here.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

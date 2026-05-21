@@ -1,0 +1,30 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('login/', views.login_view, name='admin_login'),
+    path('logout/', views.logout_view, name='admin_logout'),
+    path('dashboard/', views.dashboard_view, name='admin_dashboard'),
+    path('post/create/', views.post_create_view, name='admin_post_create'),
+    path('post/<int:post_id>/', views.post_detail_view, name='admin_post_detail'),
+    path('post/<int:post_id>/edit/', views.post_edit_view, name='admin_post_edit'),
+    path('post/<int:post_id>/delete/', views.post_delete_view, name='admin_post_delete'),
+    path('comment/<int:comment_id>/delete/', views.comment_delete_view, name='admin_comment_delete'),
+    path('users/students/', views.students_list_view, name='admin_students_list'),
+    path('users/teachers/', views.teachers_list_view, name='admin_teachers_list'),
+    path('users/student/<int:user_id>/block/', views.block_student_view, name='admin_block_student'),
+    path('users/student/<int:user_id>/unblock/', views.unblock_student_view, name='admin_unblock_student'),
+    path('users/teacher/<int:user_id>/block/', views.block_teacher_view, name='admin_block_teacher'),
+    path('users/teacher/<int:user_id>/unblock/', views.unblock_teacher_view, name='admin_unblock_teacher'),
+    path('users/student/<int:user_id>/delete/', views.delete_student_view, name='admin_delete_student'),
+    path('users/teacher/<int:user_id>/delete/', views.delete_teacher_view, name='admin_delete_teacher'),
+    path('users/student/add/', views.add_student_view, name='admin_add_student'),
+    path('users/teacher/add/', views.add_teacher_view, name='admin_add_teacher'),
+    path('profile/edit/', views.edit_profile_view, name='admin_edit_profile'),
+    path('change-password/', views.change_password_view, name='admin_change_password'),
+    path('reports/', views.reports_view, name='admin_reports'),
+    path('reports/<int:report_id>/resolve/', views.resolve_report_view, name='admin_resolve_report'),
+    path('reports/<int:report_id>/dismiss/', views.dismiss_report_view, name='admin_dismiss_report'),
+    path('post/<int:post_id>/like/', views.like_view, name='admin_like'),
+    path('post/<int:post_id>/comment/', views.comment_view, name='admin_comment'),
+]

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40">
+    <h2 class="font-serif text-xl font-bold text-primary-container">Messages</h2>
+</div>
+
+<!-- Search Contacts -->
+<div class="p-6 border-b border-slate-100 bg-white">
+    <form method="get" class="relative group">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg group-focus-within:text-primary transition-colors">search</span>
+        <input type="text" name="q" value="{{ query }}" 
+               class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-container/10 focus:border-primary-container transition-all" 
+               placeholder="Search academic contacts...">
+        <button type="submit" class="hidden">Search</button>
+    </form>
+</div>
+
+<!-- Contacts List -->
+<div class="bg-white border border-slate-200 rounded-xl overflow-hidden mt-6">
+    {% for user in users %}
+        <a href="{% url 'student_chat_detail' user.id %}" class="flex items-center gap-4 p-4 hover:bg-slate-50 border-b border-slate-100 last:border-0 transition-colors group">
+            <div class="relative">
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" class="w-12 h-12 rounded-full object-cover border border-slate-200 group-hover:border-primary/30 transition-colors">
+                {% else %}
+                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200">
+                        <span class="material-symbols-outlined">person</span>
+                    </div>
+                {% endif %}
+                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex justify-between items-start mb-0.5">
+                    <h4 class="font-serif font-bold text-primary-container group-hover:text-primary transition-colors truncate">{{ user.name }}</h4>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Active</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-bold uppercase tracking-tighter">{{ user.roll_number }}</span>
+                    <p class="text-xs text-slate-500 truncate">Academic Associate</p>
+                </div>
+            </div>
+            <span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors group-hover:translate-x-1 duration-300">chevron_right</span>
+        </a>
+    {% empty %}
+        <div class="py-20 text-center">
+            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
+                <span class="material-symbols-outlined text-slate-300 text-3xl">person_search</span>
+            </div>
+            <h5 class="font-serif text-lg text-primary-container font-bold mb-1">No contacts found</h5>
+            <p class="text-sm text-slate-500">Search for a student to start a scholarly discussion.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

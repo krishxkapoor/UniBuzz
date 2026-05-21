@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600;700&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dde9ff",
+                    "primary-fixed": "#d6e3ff",
+                    "surface-container": "#e6eeff",
+                    "outline": "#74777f",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-fixed-variant": "#712183",
+                    "secondary-fixed-dim": "#e9c176",
+                    "inverse-surface": "#233144",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#261900",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#d5e3fd",
+                    "primary": "#000a1e",
+                    "secondary": "#775a19",
+                    "background": "#f8f9ff",
+                    "on-background": "#0d1c2f",
+                    "tertiary-container": "#3e004c",
+                    "tertiary": "#190021",
+                    "primary-container": "#002147",
+                    "surface": "#f8f9ff",
+                    "on-primary-container": "#708ab5",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-dim": "#ccdbf4",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#aec7f6",
+                    "secondary-fixed": "#ffdea5",
+                    "on-tertiary-fixed": "#350041",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#ebf1ff",
+                    "on-surface": "#0d1c2f",
+                    "primary-fixed-dim": "#aec7f6",
+                    "secondary-container": "#fed488",
+                    "surface-variant": "#d5e3fd",
+                    "on-surface-variant": "#44474e",
+                    "on-tertiary-container": "#bc68cb",
+                    "surface-tint": "#465f88",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#fed6ff",
+                    "on-secondary-container": "#785a1a",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "tertiary-fixed-dim": "#f6adff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "margin": "32px",
+                    "xl": "32px",
+                    "3xl": "64px",
+                    "sm": "8px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Work Sans"],
+                    "h2": ["Newsreader"],
+                    "body-sm": ["Work Sans"],
+                    "body-md": ["Work Sans"],
+                    "body-lg": ["Work Sans"],
+                    "h3": ["Newsreader"],
+                    "h1": ["Newsreader"],
+                    "button": ["Work Sans"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-border {
+            border-bottom: 2px solid #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 docked full-width top-0 z-50 font-['Newsreader'] antialiased">
+<div class="flex justify-between items-center w-full px-8 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100">UniConnect</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#002147] border-b-2 border-amber-500 pb-1 font-semibold" href="#">Feed</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Directory</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147] transition-colors" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-50 transition-colors">notifications</button>
+<button class="material-symbols-outlined p-2 text-slate-500 hover:bg-slate-50 transition-colors">account_circle</button>
+</div>
+</div>
+</header>
+<div class="flex max-w-7xl mx-auto min-h-screen">
+<!-- SideNavBar (Hidden on desktop as per request but defined in Shared Components) -->
+<aside class="hidden lg:flex flex-col h-screen w-64 fixed left-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 font-['Work_Sans'] text-sm tracking-tight">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-[#002147]">University Portal</h2>
+<p class="text-xs text-slate-500">Academic Excellence</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 border-l-4 border-amber-500 bg-slate-50 dark:bg-slate-800 text-[#002147] font-bold px-4 py-3" href="#">
+<span class="material-symbols-outlined">home</span> Home Feed
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">groups</span> Campus Groups
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">science</span> Research Hub
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">school</span> Alumni Network
+                </a>
+<a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 transition-colors" href="#">
+<span class="material-symbols-outlined">admin_panel_settings</span> Admin Management
+                </a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full py-3 bg-primary-container text-white rounded font-medium hover:opacity-90 transition-opacity">Create Post</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-64 w-full px-8 py-8">
+<!-- Hero Section -->
+<section class="relative h-[480px] w-full rounded-xl overflow-hidden mb-12 flex items-center px-12 bg-primary-container">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="A majestic perspective of a traditional ivy-league university campus at golden hour. The architecture features gothic stone buildings, vast green manicured lawns, and large oak trees. The atmosphere is quiet, prestigious, and intellectually stimulating, with warm sunlight casting long shadows across the pathways. The scene represents a fusion of historical academic tradition and serene natural beauty." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7dHQz3X2Pgn-Of8mNjRZEnS2XDDNzCiMRSiZax7ae1ngtVF9VWSLFFA7NSXHkvZNiOug1bzKQIM2Xhhd485L__fJpcllGTEGRdo880ZXOqyTWcf8sSwiLuNQpDWb_6HXsYKBQInnGa_mGRugFK1JxOX1w-ovXY0LfXqELday3FRTn4t3yYitzeRo8nsE4vN78nLZDwwVkYpxZkx8TtLLevoeLmeFK6h8OU61GWYCDVu7aMikB6iI7msaFnvvLsMURfzam9L3dO4g"/>
+</div>
+<div class="relative z-10 max-w-2xl text-white">
+<span class="inline-block px-3 py-1 bg-secondary text-on-secondary rounded-full font-label-caps text-label-caps mb-6">ESTABLISHED 1894</span>
+<h1 class="font-h1 text-h1 mb-4">Shaping the Future through Academic Rigor.</h1>
+<p class="font-body-lg text-body-lg opacity-90 mb-8">Welcome to the central hub of our academic community. Explore resources, engage with peers, and stay updated with the pulse of the university.</p>
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-secondary text-primary font-button text-button rounded hover:brightness-110 transition-all">Explore Programs</button>
+<button class="px-6 py-3 border border-white text-white font-button text-button rounded hover:bg-white hover:text-primary-container transition-all">View Campus Map</button>
+</div>
+</div>
+</section>
+<!-- Quick Links / Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-gutter mb-12">
+<div class="md:col-span-2 md:row-span-2 bg-white border border-slate-200 p-8 rounded-xl hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-all group flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 bg-surface-container-low rounded flex items-center justify-center mb-6 text-primary-container group-hover:bg-primary-container group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-3xl">library_books</span>
+</div>
+<h3 class="font-h3 text-h3 mb-3">Academic Resources</h3>
+<p class="font-body-md text-slate-600">Access the digital library, research repositories, and curriculum guides designed to support your intellectual journey from freshman year to PhD.</p>
+</div>
+<ul class="mt-8 space-y-3">
+<li class="flex items-center gap-2 text-primary hover:translate-x-1 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-sm">arrow_forward</span> Student Portal Login
+                        </li>
+<li class="flex items-center gap-2 text-primary hover:translate-x-1 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-sm">arrow_forward</span> Course Catalogs 2024
+                        </li>
+</ul>
+</div>
+<div class="bg-white border border-slate-200 p-6 rounded-xl hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-all text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">account_balance</span>
+<h4 class="font-h3 text-xl mb-1">Financial Aid</h4>
+<p class="text-xs text-slate-500 font-label-caps mb-4">SUPPORTING DREAMS</p>
+<button class="text-sm font-semibold text-primary underline">Apply Now</button>
+</div>
+<div class="bg-white border border-slate-200 p-6 rounded-xl hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)] transition-all text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-3xl mb-4">sports_basketball</span>
+<h4 class="font-h3 text-xl mb-1">Athletics</h4>
+<p class="text-xs text-slate-500 font-label-caps mb-4">GO LIONS</p>
+<button class="text-sm font-semibold text-primary underline">Game Schedule</button>
+</div>
+<div class="md:col-span-2 bg-primary-container text-white p-6 rounded-xl flex justify-between items-center overflow-hidden relative">
+<div class="relative z-10">
+<h4 class="font-h3 text-xl mb-2">Student Life &amp; Wellness</h4>
+<p class="text-sm opacity-80 max-w-xs">Discover 200+ clubs and 24/7 mental health resources.</p>
+</div>
+<span class="material-symbols-outlined text-6xl opacity-20 absolute -right-4 -bottom-4 rotate-12">self_improvement</span>
+</div>
+</section>
+<!-- Upcoming Events & Announcements -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Events Column -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex justify-between items-end">
+<h2 class="font-h2 text-h2">Upcoming Events</h2>
+<a class="text-primary font-button text-sm flex items-center gap-1 hover:underline" href="#">View Calendar <span class="material-symbols-outlined text-xs">open_in_new</span></a>
+</div>
+<div class="space-y-4">
+<!-- Event Card 1 -->
+<div class="bg-white border border-slate-200 rounded-lg p-6 flex gap-6 hover:border-amber-500 transition-colors">
+<div class="flex-shrink-0 w-16 h-16 bg-slate-50 rounded flex flex-col items-center justify-center border border-slate-100">
+<span class="text-xs font-bold text-slate-400">OCT</span>
+<span class="text-2xl font-bold text-primary">12</span>
+</div>
+<div class="flex-grow">
+<span class="font-label-caps text-[10px] text-secondary tracking-widest">GUEST LECTURE SERIES</span>
+<h4 class="font-h3 text-lg mt-1">Sustainability in Modern Urban Architecture</h4>
+<div class="flex gap-4 mt-2 text-slate-500 text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> 2:00 PM</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> Great Hall</span>
+</div>
+</div>
+<button class="self-center p-2 rounded-full border border-slate-200 hover:bg-slate-50">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-white border border-slate-200 rounded-lg p-6 flex gap-6 hover:border-amber-500 transition-colors">
+<div class="flex-shrink-0 w-16 h-16 bg-slate-50 rounded flex flex-col items-center justify-center border border-slate-100">
+<span class="text-xs font-bold text-slate-400">OCT</span>
+<span class="text-2xl font-bold text-primary">15</span>
+</div>
+<div class="flex-grow">
+<span class="font-label-caps text-[10px] text-secondary tracking-widest">CAREER SERVICES</span>
+<h4 class="font-h3 text-lg mt-1">Fall Semester Career &amp; Internship Fair</h4>
+<div class="flex gap-4 mt-2 text-slate-500 text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> 10:00 AM</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> Campus Arena</span>
+</div>
+</div>
+<button class="self-center p-2 rounded-full border border-slate-200 hover:bg-slate-50">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Announcements Sidebar -->
+<div class="space-y-6">
+<h2 class="font-h2 text-h2">Faculty News</h2>
+<div class="bg-white border border-slate-200 rounded-lg divide-y divide-slate-100">
+<div class="p-5">
+<p class="text-xs text-slate-400 font-label-caps mb-2">RESEARCH UPDATE</p>
+<h5 class="font-medium text-primary mb-2">Quantum Physics Lab secures $2M grant for breakthrough study.</h5>
+<a class="text-xs text-primary font-bold" href="#">READ FULL ARTICLE</a>
+</div>
+<div class="p-5">
+<p class="text-xs text-slate-400 font-label-caps mb-2">CAMPUS NOTICE</p>
+<h5 class="font-medium text-primary mb-2">Extended library hours during mid-term examination week.</h5>
+<a class="text-xs text-primary font-bold" href="#">SCHEDULE INFO</a>
+</div>
+<div class="p-5">
+<p class="text-xs text-slate-400 font-label-caps mb-2">ACADEMIC HONORS</p>
+<h5 class="font-medium text-primary mb-2">Dr. Sarah Jenkins awarded National Excellence in Teaching.</h5>
+<a class="text-xs text-primary font-bold" href="#">VIEW RECOGNITION</a>
+</div>
+</div>
+<div class="p-6 bg-surface-container-high rounded-lg border border-primary-container/10">
+<h4 class="font-h3 text-lg text-primary-container mb-2">Need Assistance?</h4>
+<p class="text-sm text-slate-600 mb-4">Our student support desk is available 24/7 for technical or academic queries.</p>
+<button class="w-full py-2 bg-white border border-primary-container text-primary-container rounded font-button text-sm hover:bg-primary-container hover:text-white transition-all">Chat with Support</button>
+</div>
+</div>
+</div>
+<!-- Welcome Message / Branding Footer Area -->
+<section class="mt-16 py-12 border-t border-slate-200 text-center">
+<div class="max-w-3xl mx-auto">
+<div class="w-16 h-16 bg-primary-container mx-auto rounded mb-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<h2 class="font-h2 text-h2 mb-4 text-[#002147]">Commitment to Excellence</h2>
+<p class="font-body-md text-slate-600 italic">"Our mission is to foster a diverse and inclusive learning environment that prepares students for global leadership and lifelong discovery through rigorous scholarship and community engagement."</p>
+<div class="mt-8 flex justify-center gap-8">
+<img class="h-12 opacity-80" data-alt="A refined, elegant digital signature of a University President in dark navy blue ink on a transparent background, conveying authority, history, and official endorsement. The strokes are fluid and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQoTdkc2_TVMkcIllZptpPvD2dTL8jsYzTkuBISGGFcHG3j29FH81SNpiiziAku1Tzl3feHxdfhXZo9TDn5LQWwcY47Hp-N9UB1nkc_8cHpVwgBZIuvq0HMfUKMZEYiSn6vjCma7RfVcd019VJOay7Gs3aXPPpLYR9a5zGgGhMuVCn0Lj4uxZ7z4StHV6ev2qgpjOSXSePBt5x1ttluHngCdQpON-d1ljCz2Aea2BZRFidshvJh7WNq1uTq3V8OjR_04plXOe5AN8"/>
+<div class="text-left">
+<p class="font-bold text-primary">Dr. Arthur Sterling</p>
+<p class="text-xs text-slate-500 uppercase tracking-widest">Chancellor of UniConnect</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-auto font-['Work_Sans'] text-xs uppercase tracking-widest">
+<div class="flex flex-col items-center justify-center space-y-6 w-full px-8">
+<div class="flex items-center gap-2">
+<span class="font-bold text-[#002147] text-lg">UniConnect</span>
+<span class="text-slate-300">|</span>
+<span class="text-slate-500">Academic Network</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Institutional Ethics</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-[#002147] transition-all hover:opacity-80" href="#">Help Desk</a>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-400 text-lg hover:text-primary cursor-pointer">social_leaderboard</span>
+<span class="material-symbols-outlined text-slate-400 text-lg hover:text-primary cursor-pointer">language</span>
+<span class="material-symbols-outlined text-slate-400 text-lg hover:text-primary cursor-pointer">mail</span>
+</div>
+<p class="text-slate-400">© 2024 University Academic Network. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+<div
+    class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary-container">school</span>
+        <h2 class="font-serif text-xl font-bold text-primary-container">Students Directory</h2>
+    </div>
+    <button onclick="document.getElementById('add-student-modal').classList.remove('hidden')"
+        class="flex items-center gap-2 px-5 py-2 bg-primary-container text-white text-xs font-bold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20">
+        <span class="material-symbols-outlined text-sm">person_add</span>
+        Add Student
+    </button>
+</div>
+
+<!-- Add Student Modal -->
+<div id="add-student-modal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+        <!-- Modal Header -->
+        <div class="bg-primary-container px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3 text-white">
+                <div class="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-sm">person_add</span>
+                </div>
+                <h3 class="font-serif font-bold text-lg">Enrol New Student</h3>
+            </div>
+            <button onclick="document.getElementById('add-student-modal').classList.add('hidden')"
+                class="text-white/60 hover:text-white transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <!-- Modal Body -->
+        <form action="{% url 'admin_add_student' %}" method="post" enctype="multipart/form-data" class="p-6 space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Full Name -->
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Full Name
+                        *</label>
+                    <input type="text" name="name" required placeholder="e.g. Ayesha Khan"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition">
+                </div>
+                <!-- Roll Number -->
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Roll Number
+                        *</label>
+                    <input type="text" name="roll_number" required placeholder="e.g. CS-2021-001"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition">
+                </div>
+                <!-- Email -->
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Email
+                        *</label>
+                    <input type="email" name="email" required placeholder="student@university.edu"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition">
+                </div>
+                <!-- Password -->
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Password
+                        *</label>
+                    <input type="password" name="password" required placeholder="Min. 6 characters"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition">
+                </div>
+                <!-- Bio -->
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Bio</label>
+                    <input type="text" name="bio" placeholder="Optional short bio"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition">
+                </div>
+                <!-- Profile Picture -->
+                <div class="sm:col-span-2">
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Profile
+                        Picture</label>
+                    <label
+                        class="flex items-center gap-3 w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 cursor-pointer hover:border-primary-container transition group">
+                        <span
+                            class="material-symbols-outlined text-slate-400 group-hover:text-primary-container transition text-lg">upload</span>
+                        <span id="student-pic-label" class="text-sm text-slate-500">Choose image…</span>
+                        <input type="file" name="profile_pic" accept="image/*" class="hidden"
+                            onchange="document.getElementById('student-pic-label').textContent = this.files[0]?.name || 'Choose image…'">
+                    </label>
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="document.getElementById('add-student-modal').classList.add('hidden')"
+                    class="px-6 py-2 text-sm font-semibold text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50 transition">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-8 py-2 bg-primary-container text-white text-sm font-bold rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-primary-container/20">
+                    Enrol Student
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Search Bar -->
+<div class="px-6 py-4 border-b border-slate-100">
+    <form method="get" class="flex gap-3 items-center">
+        <div class="relative flex-1 max-w-md">
+            <span
+                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+            <input type="text" name="q" value="{{ query }}"
+                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-primary-container transition"
+                placeholder="Search by name or roll number…">
+        </div>
+        <button type="submit"
+            class="px-5 py-2.5 bg-primary-container text-white text-xs font-bold rounded-xl hover:opacity-90 transition-opacity">
+            Search
+        </button>
+        {% if query %}
+        <a href="{% url 'admin_students_list' %}"
+            class="px-4 py-2.5 text-xs font-semibold text-slate-500 border border-slate-200 rounded-xl hover:bg-slate-50 transition">
+            Clear
+        </a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Students Grid/Table using Bootstrap Grid classes for layout + Tailwind for styling -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap-grid.min.css" rel="stylesheet">
+
+<div class="container-fluid py-6">
+    <div class="row mb-4">
+        <div class="col-12">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                {% if query %}Search results for "{{ query }}"{% else %}All enrolled students{% endif %}
+                — {{ students|length }} record{{ students|length|pluralize }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        {% for student in students %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full flex flex-col p-5">
+                <div class="flex items-center gap-4 mb-4">
+                    {% if student.profile_pic %}
+                    <img src="{{ student.profile_pic.url }}" class="w-12 h-12 rounded-full object-cover border-2 border-slate-200 shrink-0">
+                    {% else %}
+                    <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-white text-sm font-bold shrink-0">
+                        {{ student.name|first|upper }}
+                    </div>
+                    {% endif %}
+                    <div class="min-w-0">
+                        <h5 class="text-base font-bold text-primary-container leading-tight truncate">{{ student.name }}</h5>
+                        <span class="inline-block mt-1 font-mono text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded truncate max-w-full">{{ student.roll_number }}</span>
+                    </div>
+                </div>
+                
+                <div class="flex-grow text-sm text-slate-500 mb-4 space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">mail</span>
+                        <span class="truncate">{{ student.email }}</span>
+                    </div>
+                    {% if student.bio %}
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-sm mt-0.5">info</span>
+                        <span class="line-clamp-2 text-xs">{{ student.bio }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-slate-100 flex flex-wrap justify-between items-center gap-3">
+                    <div>
+                        {% if student.is_blocked %}
+                        <span class="inline-flex items-center gap-1 text-[10px] font-bold text-red-700 bg-red-50 border border-red-100 px-2 py-1 rounded-full uppercase tracking-wider">
+                            <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> Blocked
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1 text-[10px] font-bold text-green-700 bg-green-50 border border-green-100 px-2 py-1 rounded-full uppercase tracking-wider">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Active
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="flex items-center gap-2 flex-wrap">
+                        {% if student.is_blocked %}
+                        <a href="{% url 'admin_unblock_student' student.id %}" class="px-3 py-1.5 text-[10px] font-bold text-green-700 border border-green-200 bg-green-50 rounded-full hover:bg-green-100 transition uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+                            <span class="material-symbols-outlined text-xs">lock_open</span> Unblock
+                        </a>
+                        {% else %}
+                        <a href="{% url 'admin_block_student' student.id %}" class="px-3 py-1.5 text-[10px] font-bold text-amber-700 border border-amber-200 bg-amber-50 rounded-full hover:bg-amber-100 transition uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+                            <span class="material-symbols-outlined text-xs">block</span> Block
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'admin_delete_student' student.id %}" onclick="return confirm('Permanently delete {{ student.name }}?')" class="px-3 py-1.5 text-[10px] font-bold text-red-700 border border-red-200 bg-red-50 rounded-full hover:bg-red-100 transition uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+                            <span class="material-symbols-outlined text-xs">delete</span> Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-10 bg-white border border-slate-200 rounded-2xl">
+                <span class="material-symbols-outlined text-5xl text-slate-200 block mb-3">school</span>
+                <p class="text-sm font-semibold text-slate-400">No students found.</p>
+                {% if query %}
+                <p class="text-xs text-slate-400 mt-1">Try a different search term or <a href="{% url 'admin_students_list' %}" class="text-primary-container underline">clear the filter</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- End Bootstrap Grid Layout -->
+
+<script>
+    // Close modal on backdrop click
+    document.getElementById('add-student-modal').addEventListener('click', function (e) {
+        if (e.target === this) this.classList.add('hidden');
+    });
+</script>
+{% endblock %}

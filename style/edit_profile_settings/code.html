@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#dde9ff",
+                    "primary-fixed": "#d6e3ff",
+                    "surface-container": "#e6eeff",
+                    "outline": "#74777f",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary-fixed-variant": "#712183",
+                    "secondary-fixed-dim": "#e9c176",
+                    "inverse-surface": "#233144",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#261900",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#d5e3fd",
+                    "primary": "#000a1e",
+                    "secondary": "#775a19",
+                    "background": "#f8f9ff",
+                    "on-background": "#0d1c2f",
+                    "tertiary-container": "#3e004c",
+                    "tertiary": "#190021",
+                    "primary-container": "#002147",
+                    "surface": "#f8f9ff",
+                    "on-primary-container": "#708ab5",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-dim": "#ccdbf4",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#aec7f6",
+                    "secondary-fixed": "#ffdea5",
+                    "on-tertiary-fixed": "#350041",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#ebf1ff",
+                    "on-surface": "#0d1c2f",
+                    "primary-fixed-dim": "#aec7f6",
+                    "secondary-container": "#fed488",
+                    "surface-variant": "#d5e3fd",
+                    "on-surface-variant": "#44474e",
+                    "on-tertiary-container": "#bc68cb",
+                    "surface-tint": "#465f88",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#fed6ff",
+                    "on-secondary-container": "#785a1a",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed-variant": "#2d476f",
+                    "tertiary-fixed-dim": "#f6adff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "2xl": "48px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "margin": "32px",
+                    "xl": "32px",
+                    "3xl": "64px",
+                    "sm": "8px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Work Sans"],
+                    "h2": ["Newsreader"],
+                    "body-sm": ["Work Sans"],
+                    "body-md": ["Work Sans"],
+                    "body-lg": ["Work Sans"],
+                    "h3": ["Newsreader"],
+                    "h1": ["Newsreader"],
+                    "button": ["Work Sans"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sidebar-active {
+            border-left: 4px solid #f59e0b; /* amber-500 */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar Shell -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-8 py-3 max-w-7xl mx-auto font-['Newsreader']">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100">UniConnect</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Feed</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Directory</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full">
+<span class="material-symbols-outlined text-slate-600">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-full border-2 border-amber-500">
+<span class="material-symbols-outlined text-[#002147]">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex-grow flex max-w-7xl w-full mx-auto">
+<!-- SideNavBar Shell -->
+<aside class="hidden lg:flex flex-col h-[calc(100vh-64px)] w-64 fixed left-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 font-['Work_Sans'] text-sm tracking-tight sticky top-16">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="University Crest" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBFJujPrA8KPc3EagLaQIY_-ObMZXCSyVIuZ9xx45SL6iPlLw6Qq2zxQ7qQH9e_5dCDexWJWnG2Bd8v7sV4dBrjkbKHT31S5UW5MiseAJRTZh0c1yWyQoZzMMJMbjX4o-VJULdKZzD0-fIhGT7Ondvetf5Cf-h7G5jQq2Bwjxb14SUpO0oV-3MibWk477cUFp_UCZyAbotk6TyWSxisaCRAxTEr3lJAFPmMZHcsiwpDaoZFXZXXoSN5QTvtFSpZmIAbD9dwY5EdMk"/>
+</div>
+<div>
+<h4 class="font-bold text-[#002147] text-md">University Portal</h4>
+<p class="text-[10px] uppercase tracking-widest text-slate-400">Academic Excellence</p>
+</div>
+</div>
+</div>
+<nav class="flex-grow">
+<ul class="space-y-1">
+<li><a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50" href="#"><span class="material-symbols-outlined">home</span>Home Feed</a></li>
+<li><a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50" href="#"><span class="material-symbols-outlined">groups</span>Campus Groups</a></li>
+<li><a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50" href="#"><span class="material-symbols-outlined">science</span>Research Hub</a></li>
+<li><a class="flex items-center gap-3 border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50" href="#"><span class="material-symbols-outlined">school</span>Alumni Network</a></li>
+<li><a class="flex items-center gap-3 border-l-4 border-amber-500 bg-slate-50 dark:bg-slate-800 text-[#002147] font-bold px-4 py-3" href="#"><span class="material-symbols-outlined">admin_panel_settings</span>Admin Management</a></li>
+</ul>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-[#002147] text-white py-3 rounded-lg font-button flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">edit</span>
+                    Create Post
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow lg:ml-64 p-8 bg-background">
+<div class="max-w-4xl mx-auto">
+<header class="mb-10">
+<h1 class="font-h1 text-h1 text-primary-container mb-2">Edit Profile</h1>
+<p class="font-body-md text-on-surface-variant">Manage your institutional identity and security settings.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Sidebar: Profile Preview -->
+<div class="md:col-span-1">
+<div class="bg-white border border-slate-200 rounded-xl p-6 text-center sticky top-24">
+<div class="relative inline-block mb-4">
+<img class="w-32 h-32 rounded-full object-cover border-4 border-surface-container mx-auto" data-alt="A professional headshot of a faculty member in a bright academic office setting. The person is smiling warmly, wearing smart business casual attire. The background features blurred bookshelves and warm, natural sunlight filtering through a window, creating an atmosphere of expertise, approachability, and institutional leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlYaFYWXJbPs-iJw5nHoKexmWG51dP3175hTUwXBPeOfTUb-0b_tkGzDSHrgUHZZ2uJ_A-qtAz2lSwK4YIPvbWjqqnAq1wAuGXac0LaBllk_aqZVND1NqkRiZEgkbbP7_1XFi_a5sL-lL2RsnkhUpT99CSC-16p2bdf_HCtpSo2PKnBV3dDvZ-fdxKJpJYYKfmltvm9OesN7EfOnk5o4r-y0lOtmj-yCycAEqHudkkOK71zRXSNC-CsKd1R98LEZhdhjSQtE1MSDA"/>
+<button class="absolute bottom-0 right-0 bg-secondary-container text-secondary p-2 rounded-full border-2 border-white hover:scale-105 transition-transform shadow-md">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</button>
+</div>
+<h3 class="font-h3 text-h3 text-primary-container">Dr. Elena Sterling</h3>
+<p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Faculty Member</p>
+<div class="space-y-3 pt-4 border-t border-slate-100">
+<div class="flex items-center justify-between text-xs font-label-caps text-slate-500">
+<span>Profile Strength</span>
+<span>85%</span>
+</div>
+<div class="w-full bg-slate-100 h-1 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Form Area -->
+<div class="md:col-span-2 space-y-gutter">
+<!-- Personal Information Section -->
+<section class="bg-white border border-slate-200 rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-2 mb-6 text-primary-container">
+<span class="material-symbols-outlined">person</span>
+<h2 class="font-h3 text-h3">Personal Information</h2>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">FULL NAME</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" type="text" value="Elena Sterling"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">PREFERRED PRONOUNS</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="e.g. She/Her" type="text"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">BIOGRAPHY</label>
+<textarea class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" rows="4">Associate Professor of Cognitive Science with a focus on human-computer interaction and neural network modeling. Dedicated to fostering interdisciplinary research at the intersection of AI and ethics.</textarea>
+</div>
+</form>
+</section>
+<!-- Academic Details Section -->
+<section class="bg-white border border-slate-200 rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-2 mb-6 text-primary-container">
+<span class="material-symbols-outlined">school</span>
+<h2 class="font-h3 text-h3">Academic Details</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">DEPARTMENT / SCHOOL</label>
+<select class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all">
+<option selected="">Department of Cognitive Science</option>
+<option>School of Engineering</option>
+<option>Faculty of Humanities</option>
+<option>Medical Research Centre</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">TENURE / YEAR</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" type="text" value="Assistant Professor (Year 4)"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">INSTITUTIONAL EMAIL</label>
+<input class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded text-slate-500 cursor-not-allowed" readonly="" type="email" value="e.sterling@university.edu"/>
+<p class="text-[10px] text-slate-400 italic">Managed by central IT administration</p>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">OFFICE LOCATION</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" type="text" value="Building 4, Room 202"/>
+</div>
+</div>
+</section>
+<!-- Change Password Section -->
+<section class="bg-surface-container-low border border-slate-200 rounded-xl p-lg shadow-sm">
+<div class="flex items-center gap-2 mb-6 text-primary-container">
+<span class="material-symbols-outlined">lock_reset</span>
+<h2 class="font-h3 text-h3">Security &amp; Password</h2>
+</div>
+<div class="space-y-4">
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">CURRENT PASSWORD</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="••••••••••••" type="password"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">NEW PASSWORD</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" type="password"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-caps text-label-caps text-on-surface-variant">CONFIRM NEW PASSWORD</label>
+<input class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" type="password"/>
+</div>
+</div>
+<div class="bg-white/50 p-3 rounded border border-blue-100 flex gap-3">
+<span class="material-symbols-outlined text-blue-500 text-sm">info</span>
+<p class="text-xs text-on-surface-variant leading-relaxed">Password must be at least 12 characters and include a mix of uppercase, lowercase, numbers, and symbols according to Institutional Ethics guidelines.</p>
+</div>
+</div>
+</section>
+<!-- Form Actions -->
+<div class="flex justify-end gap-4 py-8">
+<button class="px-6 py-2 border border-slate-300 text-primary-container font-button rounded hover:bg-slate-50 transition-colors">Discard Changes</button>
+<button class="px-8 py-2 bg-[#002147] text-white font-button rounded hover:opacity-90 transition-opacity shadow-lg">Save Profile</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer Shell -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-auto">
+<div class="flex flex-col items-center justify-center space-y-4 w-full font-['Work_Sans'] text-xs uppercase tracking-widest px-8">
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 hover:text-[#002147] transition-opacity hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-[#002147] transition-opacity hover:opacity-80" href="#">Institutional Ethics</a>
+<a class="text-slate-500 hover:text-[#002147] transition-opacity hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-[#002147] transition-opacity hover:opacity-80" href="#">Help Desk</a>
+</div>
+<div class="text-slate-900 dark:text-slate-100 text-center">
+<span class="font-bold text-[#002147]">UniConnect</span> © 2024 University Academic Network. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

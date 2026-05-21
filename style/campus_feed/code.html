@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Work+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dde9ff",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container": "#e6eeff",
+                        "outline": "#74777f",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#712183",
+                        "secondary-fixed-dim": "#e9c176",
+                        "inverse-surface": "#233144",
+                        "on-secondary-fixed-variant": "#5d4201",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#261900",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#d5e3fd",
+                        "primary": "#000a1e",
+                        "secondary": "#775a19",
+                        "background": "#f8f9ff",
+                        "on-background": "#0d1c2f",
+                        "tertiary-container": "#3e004c",
+                        "tertiary": "#190021",
+                        "primary-container": "#002147",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-dim": "#ccdbf4",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#aec7f6",
+                        "secondary-fixed": "#ffdea5",
+                        "on-tertiary-fixed": "#350041",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-surface": "#0d1c2f",
+                        "primary-fixed-dim": "#aec7f6",
+                        "secondary-container": "#fed488",
+                        "surface-variant": "#d5e3fd",
+                        "on-surface-variant": "#44474e",
+                        "on-tertiary-container": "#bc68cb",
+                        "surface-tint": "#465f88",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-fixed": "#fed6ff",
+                        "on-secondary-container": "#785a1a",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "tertiary-fixed-dim": "#f6adff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "margin": "32px",
+                        "xl": "32px",
+                        "3xl": "64px",
+                        "sm": "8px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Work Sans"],
+                        "h2": ["Newsreader"],
+                        "body-sm": ["Work Sans"],
+                        "body-md": ["Work Sans"],
+                        "body-lg": ["Work Sans"],
+                        "h3": ["Newsreader"],
+                        "h1": ["Newsreader"],
+                        "button": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "0em", "fontWeight": "500"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "button": ["15px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-background antialiased">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 docked full-width top-0 z-50 fixed w-full">
+<div class="flex justify-between items-center w-full px-8 py-3 max-w-7xl mx-auto font-['Newsreader'] antialiased">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-[#002147] dark:text-blue-100">UniConnect</span>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-[#002147] border-b-2 border-amber-500 pb-1 font-semibold" href="#">Feed</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Chat</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Directory</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#002147]" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:ring-1 focus:ring-primary-container" placeholder="Search campus..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-600 rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-600 rounded-full">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-7xl mx-auto pt-20 px-8 flex gap-gutter min-h-screen">
+<!-- Left Sidebar: SideNavBar -->
+<aside class="hidden lg:flex flex-col h-[calc(100vh-80px)] py-6 w-64 fixed sticky top-20 border-r border-slate-200 dark:border-slate-800 font-['Work_Sans'] text-sm tracking-tight bg-white dark:bg-slate-900">
+<div class="flex flex-col gap-1 mb-8">
+<div class="flex items-center gap-3 px-4 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white overflow-hidden">
+<img alt="University Crest" class="w-full h-full object-cover" data-alt="A detailed gold and navy blue university crest with intricate heraldic symbols including an open book and a torch. The design is presented in a clean, modern vector style against a professional dark navy background, evoking traditional academic prestige and intellectual authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPcvZ1sMmlPHPJOYy55MRciLdR6SFeiCNz38hrkvxuDVbFLBi6YMU10kZaSkDMc5MVZC8ZUUz3ZFSJ6APcS2TlEXFkdqQxkC7Js6p5Ag0ADmFaNbx4OLhIAVP1Wf3KqAo4Gg7eo5ZLlUfk1tzZUA1bMRcIw5oGTgB0Jxe8AGr4OIOsq61f5TNqoNu14vNHQWs8_WNdLhF5xS1w6w2jjF4NEWOm6k4I-mJ2AHZ_jDOi3Xf0d57NtwvX_3ga1g69rwvpvKtN2QchWBM"/>
+</div>
+<div>
+<h4 class="font-bold text-[#002147] text-sm leading-tight">University Portal</h4>
+<p class="text-xs text-slate-500 uppercase tracking-wider">Academic Excellence</p>
+</div>
+</div>
+<a class="border-l-4 border-amber-500 bg-slate-50 dark:bg-slate-800 text-[#002147] font-bold px-4 py-3 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home Feed</span>
+</a>
+<a class="border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span>Campus Groups</span>
+</a>
+<a class="border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+<span>Research Hub</span>
+</a>
+<a class="border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span>Alumni Network</span>
+</a>
+<a class="border-l-4 border-transparent text-slate-600 dark:text-slate-400 px-4 py-3 hover:bg-slate-50 flex items-center gap-3" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span>Admin Management</span>
+</a>
+</div>
+<div class="mt-auto px-4">
+<button class="w-full py-3 bg-secondary-container text-on-secondary-container font-button rounded flex items-center justify-center gap-2 hover:opacity-90 transition-opacity font-semibold">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+                    Create Post
+                </button>
+</div>
+</aside>
+<!-- Main Feed Canvas -->
+<main class="flex-1 flex flex-col gap-gutter py-6 max-w-2xl mx-auto">
+<!-- Create Post Field -->
+<section class="bg-white border border-slate-200 p-lg rounded-lg shadow-sm">
+<div class="flex gap-4">
+<div class="w-12 h-12 rounded-full bg-slate-200 flex-shrink-0 overflow-hidden">
+<img alt="Current User" data-alt="A professional headshot of a young male university student with a friendly expression. He is wearing a classic navy blue sweater over a collared shirt. The background is a softly blurred modern campus library with bright, natural lighting and rows of books, maintaining a high-contrast and clean academic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiy0_93aNm2Ge9pyZRg9tv7_fPIfCNfsFI-F5AMqft8H-BZkJLtUzBJeWcf6Lh1zHbyKLb8RJGTJ98v6f494aqTs40tetg3OlWIcskJMx6mZuOS81QePzrpo1yxZPQvWwpEcdhqHCbRfirmvkajj7yGSb_HOzQy3a9jam1--ObFGCbqLVp2GXawLlaUsdt6Z0fur6PCI_f-fxE3v21BaUewgZzCTPPcT9_OimoDXuToUc9B3Zhm2KS-46MdDuiTvJGhIlKIBvZ61w"/>
+</div>
+<div class="flex-1">
+<textarea class="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 text-body-md focus:outline-none focus:ring-1 focus:ring-primary-container resize-none h-24 font-body-md" placeholder="Share a research snippet or campus update..."></textarea>
+<div class="flex justify-between items-center mt-3">
+<div class="flex gap-2">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-md" data-icon="image">image</span>
+<span class="text-xs font-label-caps">Media</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-md" data-icon="attachment">attachment</span>
+<span class="text-xs font-label-caps">Paper</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-md" data-icon="event">event</span>
+<span class="text-xs font-label-caps">Event</span>
+</button>
+</div>
+<button class="px-6 py-2 bg-primary-container text-white font-button rounded hover:bg-opacity-90 transition-colors">Post</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Feed Content -->
+<article class="bg-white border border-slate-200 rounded-lg overflow-hidden transition-all hover:shadow-[0px_4px_12px_rgba(0,33,71,0.08)]">
+<div class="p-lg">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
+<img alt="Faculty" data-alt="A portrait of a female university professor in her early 40s, wearing professional attire and elegant glasses. She has a knowledgeable and welcoming expression. The setting is a brightly lit, contemporary laboratory with sleek equipment and cool blue tones in the background, conveying a sense of intellectual rigor and modern research." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ4kk0fWlHc-4Ki8_9D9urOzj21dyr1DjZ5FSVyYGTlNA1-m2CCsZ4wlHkRdUwmE0nrSbKui_HcygmDeQIoBXHhpVHnPWeuOgh-KF3ucr8v7l2-F_ity4TG_lluQTrgr-HM647QcBZ-qq69aleEdC37-Q3-u1ogrUcXNoll0P7vxddER4QSsfVw07b0X7ndXsWmdmZ2xqCUCXrMuYvux6y3Tu0QHXLyMUbAPX-8Pl1-PGYfVHp1rLzSCFsnlLKCXEoEk6J9ZzQ_p4"/>
+</div>
+<div>
+<h3 class="font-h3 text-primary leading-none mb-1">Dr. Elena Rostova</h3>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-primary text-white text-[10px] font-bold rounded uppercase tracking-widest">Faculty</span>
+<span class="text-xs text-slate-400 font-label-caps">• 2 hours ago</span>
+</div>
+</div>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+<p class="text-body-lg text-on-surface mb-4">Excited to announce that our Quantum Computing lab has just published a new paper on room-temperature superconductors. This could be a game-changer for sustainable energy grids. Looking forward to discussing this in next week's seminar.</p>
+<div class="rounded-xl overflow-hidden mb-4 border border-slate-100">
+<img alt="Research" class="w-full aspect-video object-cover" data-alt="A stunning, high-contrast scientific visualization of quantum particle behavior in a crystalline structure. Glowing paths of vibrant blue and amber light weave through a dark, structured lattice. The image has a sharp, digital precision and feels highly advanced, reflecting a sophisticated academic research environment with deep blacks and bright technological highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4xb1z6-41-8aflHfU73tBpMGuEmm7HnmIaZzyySVxA3dnBNGjs4sSWmjBQ5CTHzDNVhkhtJO7cjAWofSsnKo8VrSVYh1n9Fwc6MALsy4GN5_tB1yVsUSLOviYsoVSCIIUKWt7db0fBGFOlqskc2OJLUBHaVjL7s89pLOw_NWZn8txezgiNOUd1gMG4rA2z9ie3Qp2F8zGtpIiuwctRBBs9BPYsoZhu5TGVWUdTc7s0Y8H833yqiFKfzZV23p1KCP8I2EPgQvTXoY"/>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-50">
+<div class="flex gap-6">
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span>
+<span class="text-xs font-label-caps">124</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-xs font-label-caps">18 Comments</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+<span class="text-xs font-label-caps">Share</span>
+</button>
+</div>
+<button class="text-slate-500 hover:text-amber-600 transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="bookmark">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+<article class="bg-white border border-slate-200 rounded-lg p-lg shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
+<img alt="Student" data-alt="A candid profile of a male student studying in a sun-drenched campus courtyard. He is focused on his tablet, wearing a casual grey hoodie. The environment features lush green trees and traditional brick university architecture in soft focus. The overall atmosphere is peaceful, academic, and full of natural, warm light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxZEIMlMU2PvMidnuOsapzdlPKNNzi5WfsClvoBI73eD8lQRy9ljI1T0dICJYDaQyR2ixNJuDDvZWbvhHEIJMqm-vcmoKkZ8IbZQltdpgbBAaQZQVjim6DAfLx6T9smEFQN5F0jWV92G0hGQuRLXDqKc7YB4M4rI3ncPPxmd1pEFe-LAJsinNrGsYSAw9TjsoVtOyX5_6tooAvuI3CtcivltS9U4yibzl2hiPO20s3idl4NwuZyHOTbJy9OwUNEzRItpk98FkgWXs"/>
+</div>
+<div>
+<h3 class="font-h3 text-primary leading-none mb-1">Marcus Thorne</h3>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase tracking-widest">Student</span>
+<span class="text-xs text-slate-400 font-label-caps">• 5 hours ago</span>
+</div>
+</div>
+</div>
+</div>
+<p class="text-body-md text-on-surface mb-2">Anyone else struggling with the final assignment for Computational Linguistics? The dependency parsing section is quite dense. Coffee's on me if anyone wants to do a study session at the Main Library tonight! ☕️📚</p>
+<div class="flex gap-2 flex-wrap mt-4">
+<span class="px-3 py-1 bg-slate-50 text-slate-500 text-xs font-label-caps rounded-full border border-slate-100">#CS102</span>
+<span class="px-3 py-1 bg-slate-50 text-slate-500 text-xs font-label-caps rounded-full border border-slate-100">#Linguistics</span>
+<span class="px-3 py-1 bg-slate-50 text-slate-500 text-xs font-label-caps rounded-full border border-slate-100">#StudyGroup</span>
+</div>
+<div class="flex items-center gap-6 pt-6 mt-4 border-t border-slate-50">
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span>
+<span class="text-xs font-label-caps">42</span>
+</button>
+<button class="flex items-center gap-1.5 text-slate-500 hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-xs font-label-caps">12 Comments</span>
+</button>
+</div>
+</article>
+</main>
+<!-- Right Sidebar: Trending & Suggested -->
+<aside class="hidden xl:flex flex-col gap-gutter w-80 sticky top-20 h-fit py-6">
+<!-- Trending Topics -->
+<section class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<div class="px-lg py-md border-b border-slate-100 bg-slate-50">
+<h2 class="font-h3 text-lg text-primary">Trending Now</h2>
+</div>
+<div class="p-lg flex flex-col gap-4">
+<div class="group cursor-pointer">
+<p class="text-xs text-slate-400 font-label-caps">ACADEMICS</p>
+<h4 class="text-sm font-bold text-[#002147] group-hover:text-amber-600 transition-colors">Spring Semester Finals Schedule</h4>
+<p class="text-xs text-slate-500">1.2k members participating</p>
+</div>
+<div class="group cursor-pointer">
+<p class="text-xs text-slate-400 font-label-caps">RESEARCH</p>
+<h4 class="text-sm font-bold text-[#002147] group-hover:text-amber-600 transition-colors">Sustainable Campus Initiative</h4>
+<p class="text-xs text-slate-500">842 posts this week</p>
+</div>
+<div class="group cursor-pointer">
+<p class="text-xs text-slate-400 font-label-caps">EVENTS</p>
+<h4 class="text-sm font-bold text-[#002147] group-hover:text-amber-600 transition-colors">Alumni Career Networking Night</h4>
+<p class="text-xs text-slate-500">Starts in 3 days</p>
+</div>
+</div>
+<button class="w-full py-3 text-xs font-bold text-amber-600 hover:bg-slate-50 transition-colors text-center border-t border-slate-100">View All Topics</button>
+</section>
+<!-- Suggested Connections -->
+<section class="bg-white border border-slate-200 rounded-lg overflow-hidden">
+<div class="px-lg py-md border-b border-slate-100 bg-slate-50">
+<h2 class="font-h3 text-lg text-primary">Suggested for You</h2>
+</div>
+<div class="p-lg flex flex-col gap-4">
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
+<img alt="User" data-alt="A professional portrait of a senior academic researcher with white hair and a wise expression. He is wearing a dark navy blazer over a light blue shirt. The background is a traditional wood-paneled university library office with soft, warm incandescent lighting, reflecting years of institutional expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUzzdXansLLutNdj93ltzjqX-FHgvJPyQbzJrNkw58p8x_EHOOsKiHC-IVGHvDhCBzFmrkNIl6LpcWwhk5M_udpmxrLzMiuWR7Yfqd4qXtdNIWQ8IX-2leyJ5xU9PrOgAhitOlG5iZ3y8QXEIQcmFL-d5mi5-wht1IVEiMCuNychoF_ILYQv_2bdJ9mNT24UednBP_gpu-oui_5fTqzD-aWO_G5Nqfd1jKwRbhpiYkw3M-uK0-AYuQWmhMKR8I6p9rut9-eHW30iw"/>
+</div>
+<div>
+<h4 class="text-sm font-bold text-[#002147]">Prof. Julian Gray</h4>
+<p class="text-xs text-slate-500">Dept. of Philosophy</p>
+</div>
+</div>
+<button class="p-1.5 text-primary hover:bg-slate-50 rounded-full">
+<span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
+</button>
+</div>
+<div class="flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-100 overflow-hidden">
+<img alt="User" data-alt="A vibrant portrait of a female PhD candidate in a modern university setting. She is smiling confidently, wearing a stylish mustard-colored scarf. The background features a clean-lined, contemporary student lounge with bright daylight and minimalist furniture, echoing a modern and energetic academic life." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn1y1pUmuz75MAK6dsGg-F2AHtbYbyPU4U4pz0TVFwcc9jl0kmdvNfWuz-w0j-W7udq6HTANdMxVysWOOI7gD4gu1uILjs8WgM2nIScrYFQDHTBVUhMjuN8PeVnaxSlbZi_kziKo795X63TvmNL9TNWVM2Il6QDCV_hCMgK1T4KHYcs5Z2mnpS5eHfih5mLOHqVC_-sr6qt-Ad4WjasJWXN1g6EZAwS22UAYe5Ry4WE-BXOMoSs1aPmWlxPAIQAL_kWtN7PeKoYZk"/>
+</div>
+<div>
+<h4 class="text-sm font-bold text-[#002147]">Sarah Jenkins</h4>
+<p class="text-xs text-slate-500">Bio-Tech Student</p>
+</div>
+</div>
+<button class="p-1.5 text-primary hover:bg-slate-50 rounded-full">
+<span class="material-symbols-outlined text-lg" data-icon="person_add">person_add</span>
+</button>
+</div>
+</div>
+</section>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-8 mt-xl font-['Work_Sans'] text-xs uppercase tracking-widest">
+<div class="flex flex-col items-center justify-center space-y-4 w-full">
+<div class="font-bold text-[#002147] text-lg">UniConnect</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-[#002147] transition-colors hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-[#002147] transition-colors hover:opacity-80" href="#">Institutional Ethics</a>
+<a class="text-slate-500 hover:text-[#002147] transition-colors hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-slate-500 hover:text-[#002147] transition-colors hover:opacity-80" href="#">Help Desk</a>
+</div>
+<p class="text-slate-400">© 2024 University Academic Network. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

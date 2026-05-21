@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBuzz | Academic Community</title>
+    <meta name="description" content="UniBuzz — the academic social platform connecting students, faculty, and administration.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#002147",
+                        "secondary": "#775a19",
+                        "secondary-container": "#fed488",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                    },
+                    fontFamily: {
+                        "serif": ["Newsreader", "serif"],
+                        "sans": ["Work Sans", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .role-card:hover { transform: translateY(-4px); }
+        .role-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    </style>
+</head>
+<body class="min-h-screen font-sans bg-background antialiased flex flex-col">
+
+    <!-- Decorative Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary-container/5"></div>
+        <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-amber-400/10"></div>
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+    </div>
+
+    <!-- Header Bar -->
+    <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between max-w-5xl mx-auto w-full mt-6 rounded-2xl shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings:'FILL' 1">school</span>
+            </div>
+            <span class="font-serif font-bold text-primary-container text-xl">UniBuzz</span>
+        </div>
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest hidden sm:block">Academic Community Platform</span>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-12">
+        <div class="text-center mb-12 max-w-2xl">
+            <p class="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full uppercase tracking-widest inline-block mb-4">University Portal</p>
+            <h1 class="font-serif text-4xl sm:text-5xl font-bold text-primary-container leading-tight mb-4">
+                Your Campus,<br>Connected.
+            </h1>
+            <p class="text-slate-500 text-base leading-relaxed">
+                UniBuzz brings students, faculty, and administration together in a single academic social space. Select your role to continue.
+            </p>
+        </div>
+
+        <!-- Role Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-3xl">
+
+            <!-- Student -->
+            <a href="{% url 'student_login' %}" class="role-card group block bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-primary-container/30 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-5 group-hover:bg-primary-container transition-colors duration-200">
+                    <span class="material-symbols-outlined text-3xl text-primary-container group-hover:text-white transition-colors duration-200" style="font-variation-settings:'FILL' 1">school</span>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-primary-container mb-2">Student</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Sign in with your roll number to join the academic community.</p>
+                <div class="mt-6 flex items-center justify-center gap-1 text-[10px] font-bold text-primary-container uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Enter Portal <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Teacher -->
+            <a href="{% url 'teacher_login' %}" class="role-card group block bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-amber-300 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-5 group-hover:bg-amber-500 transition-colors duration-200">
+                    <span class="material-symbols-outlined text-3xl text-amber-600 group-hover:text-white transition-colors duration-200" style="font-variation-settings:'FILL' 1">person_book</span>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-primary-container mb-2">Faculty</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Sign in with your university email to manage your courses.</p>
+                <div class="mt-6 flex items-center justify-center gap-1 text-[10px] font-bold text-amber-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Enter Portal <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Admin -->
+            <a href="{% url 'admin_login' %}" class="role-card group block bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-xl hover:border-red-200 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-5 group-hover:bg-error transition-colors duration-200">
+                    <span class="material-symbols-outlined text-3xl text-error group-hover:text-white transition-colors duration-200" style="font-variation-settings:'FILL' 1">admin_panel_settings</span>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-primary-container mb-2">Administration</h2>
+                <p class="text-slate-500 text-xs leading-relaxed">Platform oversight — moderation, analytics, and user management.</p>
+                <div class="mt-6 flex items-center justify-center gap-1 text-[10px] font-bold text-error uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Enter Portal <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-[11px] text-slate-400 font-semibold tracking-wider uppercase">
+        UniBuzz &mdash; Academic Excellence Platform
+    </footer>
+
+</body>
+</html>

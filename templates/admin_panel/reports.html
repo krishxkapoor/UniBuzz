@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sticky top-16 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4 z-40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-error/10 rounded-xl flex items-center justify-center text-error">
+            <span class="material-symbols-outlined">gavel</span>
+        </div>
+        <h2 class="font-serif text-xl font-bold text-primary-container">Content Moderation</h2>
+    </div>
+    <div class="flex bg-slate-100 p-1 rounded-xl">
+        <a href="?status=pending" class="px-6 py-1.5 text-[10px] font-bold rounded-lg transition-all uppercase tracking-widest {% if status_filter == 'pending' %}bg-white shadow-sm text-error{% else %}text-slate-500 hover:text-slate-700{% endif %}">Pending</a>
+        <a href="?status=resolved" class="px-6 py-1.5 text-[10px] font-bold rounded-lg transition-all uppercase tracking-widest {% if status_filter == 'resolved' %}bg-white shadow-sm text-green-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">Resolved</a>
+        <a href="?status=dismissed" class="px-6 py-1.5 text-[10px] font-bold rounded-lg transition-all uppercase tracking-widest {% if status_filter == 'dismissed' %}bg-white shadow-sm text-slate-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">Dismissed</a>
+    </div>
+</div>
+
+<div class="p-6">
+    {% if reports %}
+        <div class="space-y-4">
+            {% for report in reports %}
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 bg-error/10 text-error text-[10px] font-bold rounded-full uppercase tracking-widest border border-error/10">{{ report.reason|title }}</span>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">• Reported {{ report.created_at|timesince }} ago</span>
+                            </div>
+                            <span class="px-3 py-1 {% if report.status == 'pending' %}bg-amber-50 text-amber-600 border-amber-100{% elif report.status == 'resolved' %}bg-green-50 text-green-600 border-green-100{% else %}bg-slate-50 text-slate-500 border-slate-100{% endif %} text-[10px] font-bold rounded-full uppercase tracking-widest border">
+                                {{ report.status|title }}
+                            </span>
+                        </div>
+
+                        <!-- Content Preview -->
+                        <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 mb-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-0.5 {% if report.post.author_role == 'teacher' %}bg-primary{% else %}bg-secondary-container text-on-secondary-container{% endif %} text-[8px] font-bold rounded uppercase tracking-widest">
+                                    {{ report.post.author_role|title }}
+                                </span>
+                                <span class="text-xs font-bold text-primary-container">{{ report.post_author_name }}</span>
+                                <span class="text-[10px] text-slate-400 font-medium ms-auto">{{ report.post.created_at|timesince }} ago</span>
+                            </div>
+                            <p class="text-sm text-slate-600 leading-relaxed italic" style="white-space: pre-wrap;">"{{ report.post.content|truncatechars:250 }}"</p>
+                        </div>
+
+                        {% if report.description %}
+                            <div class="flex gap-2 items-start mb-6 text-slate-500">
+                                <span class="material-symbols-outlined text-sm mt-0.5">comment</span>
+                                <p class="text-xs font-medium italic">"{{ report.description }}"</p>
+                            </div>
+                        {% endif %}
+
+                        <!-- Actions -->
+                        <div class="flex flex-wrap gap-3 pt-4 border-t border-slate-50">
+                            <a href="{% url 'admin_post_detail' report.post.id %}" class="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-full hover:bg-slate-200 transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">visibility</span> View Context
+                            </a>
+                            
+                            {% if report.status == 'pending' %}
+                                <a href="{% url 'admin_resolve_report' report.id %}" class="px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-full hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-green-600/20">
+                                    <span class="material-symbols-outlined text-sm">check_circle</span> Mark Resolved
+                                </a>
+                                <a href="{% url 'admin_dismiss_report' report.id %}" class="px-4 py-2 border border-slate-200 text-slate-500 text-xs font-bold rounded-full hover:bg-slate-50 transition-colors flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-sm">cancel</span> Dismiss
+                                </a>
+                                <a href="{% url 'admin_post_delete' report.post.id %}" class="px-4 py-2 bg-error text-white text-xs font-bold rounded-full hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-error/20 ms-auto">
+                                    <span class="material-symbols-outlined text-sm">delete</span> Remove Content
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="py-32 text-center bg-white border border-slate-200 rounded-2xl">
+            <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-green-600 text-4xl">shield_check</span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-primary-container mb-2">Zero Pending Violations</h3>
+            <p class="text-sm text-slate-500">All {{ status_filter }} reports have been successfully audited.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center justify-content-center h-100 text-center py-5">
+    <h1 class="display-1 fw-bold text-danger mb-3">500</h1>
+    <h3 class="text-white mb-4">Something went wrong on our end.</h3>
+    <a href="{% url 'landing' %}" class="btn btn-primary rounded-pill px-5 py-2 fw-bold">Go Home</a>
+</div>
+{% endblock %}
